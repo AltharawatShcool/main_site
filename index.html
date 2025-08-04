@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة الثروات الوطنية الخاصة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/firebase@9.15.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/firebase@9.15.0/firebase-firestore-compat.min.js"></script>
+    <style>
+        /* استيراد خط تاجوال العربي من جوجل فونتس */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        
+        /* تطبيق الخط على جميع العناصر */
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        /* تأثيرات الحركة والانيميشن */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 1.2s ease-out;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* تعريف حركة الظهور التدريجي */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* تعريف حركة الانزلاق من الأسفل */
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* تعريف حركة الارتداد عند الظهور */
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% { opacity: 0; transform: scale3d(.3, .3, .3); }
+            20% { transform: scale3d(1.1, 1.1, 1.1); }
+            40% { transform: scale3d(.9, .9, .9); }
+            60% { opacity: 1; transform: scale3d(1.03, 1.03, 1.03); }
+            80% { transform: scale3d(.97, .97, .97); }
+            to { opacity: 1; transform: scale3d(1, 1, 1); }
+        }
+        
+        /* تعريف حركة النبض */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* تحريك العدادات */
+        @keyframes countUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .stats-animate {
+            animation: countUp 0.6s ease-out;
+        }
+        
+        /* 
+        ===========================================
+        تخصيص صورة خلفية الهيرو (الصفحة الرئيسية)
+        ===========================================
+        لتغيير صورة خلفية الهيرو، استبدل الرابط أدناه بصورة جديدة
+        يُفضل أن تكون الصورة بدقة 1920x1080 أو أعلى
+        */
+        .hero-bg {
+            background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
+                        url('https://www2.0zz0.com/2025/07/26/10/237361813.jpeg') center/cover;
+            background-attachment: fixed;
+        }
+        
+        /* تأثير الزجاج المضبب */
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* تأثير التكبير عند التمرير */
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        /* دائرة التحميل المتحركة */
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #5D5CDE;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* تعريف حركة الدوران */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* شريط الإشعارات */
+        .notification-banner {
+            background: linear-gradient(90deg, #F59E0B, #EAB308);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* 
+        ===========================================
+        تصميم جداول الحصص المحسن
+        ===========================================
+        */
+        .schedule-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .schedule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .schedule-card:hover::before {
+            opacity: 1;
+        }
+        
+        .schedule-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .schedule-card-header {
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .schedule-card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .grade-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .grade-title {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .schedule-card-body {
+            background: white;
+            padding: 1.5rem;
+        }
+        
+        .schedule-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .schedule-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .schedule-btn:hover::before {
+            left: 100%;
+        }
+        
+        .view-btn {
+            background: linear-gradient(45deg, #5D5CDE, #7C3AED);
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(45deg, #4C4BC7, #6D28D9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(93, 92, 222, 0.3);
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #10B981, #059669);
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(45deg, #0F9A7A, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* تحسينات الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .grade-number {
+                font-size: 2.5rem;
+            }
+            
+            .schedule-card-header {
+                padding: 1.5rem;
+            }
+            
+            .schedule-card-body {
+                padding: 1rem;
+            }
+        }
+        
+        /* 
+        ===========================================
+        تخصيص صور جداول الحصص
+        ===========================================
+        */
+        .schedule-image {
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .schedule-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        .schedule-image > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* تصميم حاوي الخريطة */
+        .map-container {
+            background: linear-gradient(135deg, #10B981, #059669);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 12px;
+        }
+        
+        /* تأثير الإضاءة حول الشعار */
+        .logo-glow {
+            box-shadow: 0 0 20px rgba(93, 92, 222, 0.3);
+        }
+        
+        /* حركة الطفو */
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* تعريف حركة الطفو */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* تصميم شعار المدرسة */
+        .school-logo {
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تحسينات لعرض الصور في المودال */
+        .schedule-image-display {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .schedule-image-display.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .schedule-image-display.hide {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        /* تحسينات الإحصائيات */
+        .stats-container {
+            position: relative;
+        }
+        
+        .stats-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stats-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2) !important;
+        }
+        
+        .counter {
+            transition: all 0.3s ease;
+        }
+    </style>
+    <script>
+        /* إعداد تخصيص ألوان Tailwind CSS */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',  /* اللون الأساسي للموقع */
+                        secondary: '#667eea' /* اللون الثانوي */
+                    }
+                }
+            }
+        }
+        
+        /* دعم الوضع المظلم - يتم اكتشافه تلقائياً من إعدادات النظام */
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <!-- Header - رأس الصفحة مع القائمة -->
+    <header class="bg-white dark:bg-gray-800 shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- شعار المدرسة واسمها -->
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="school-logo logo-glow">
+                        <!-- 
+                        ===========================================
+                        شعار المدرسة في الهيدر
+                        ===========================================
+                        لتغيير شعار المدرسة، استبدل src أدناه بمسار الصورة الجديدة
+                        يُفضل أن تكون الصورة مربعة (60x60 بكسل أو أكبر)
+                        -->
+                        <img src="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg" 
+                             alt="شعار المدرسة" class="w-12 h-12 rounded-full object-cover">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-primary">مدرسة الثروات الوطنية الخاصة</h1>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">التميز في التعليم</p>
+                    </div>
+                </div>
+                
+                <!-- قائمة التنقل للشاشات الكبيرة -->
+                <ul class="hidden md:flex space-x-8 space-x-reverse">
+                    <li><a href="#hero" class="nav-link hover:text-primary transition-colors">الرئيسية</a></li>
+                    <li><a href="#about" class="nav-link hover:text-primary transition-colors">نبذة عنا</a></li>
+                    <li><a href="#plans" class="nav-link hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                    <li><a href="#schedule" class="nav-link hover:text-primary transition-colors">جدول الحصص</a></li>
+                    <li><a href="#location" class="nav-link hover:text-primary transition-colors">الموقع</a></li>
+                    <li><a href="#contact" class="nav-link hover:text-primary transition-colors">اتصل بنا</a></li>
+                </ul>
+                
+                <!-- زر قائمة الهاتف المحمول -->
+                <button id="mobile-menu-btn" class="md:hidden">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- قائمة الهاتف المحمول -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <ul class="space-y-2">
+                    <li><a href="#hero" class="nav-link block py-2 hover:text-primary transition-colors">الرئيسية</a></li>
+                    <li><a href="#about" class="nav-link block py-2 hover:text-primary transition-colors">نبذة عنا</a></li>
+                    <li><a href="#plans" class="nav-link block py-2 hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                    <li><a href="#schedule" class="nav-link block py-2 hover:text-primary transition-colors">جدول الحصص</a></li>
+                    <li><a href="#location" class="nav-link block py-2 hover:text-primary transition-colors">الموقع</a></li>
+                    <li><a href="#contact" class="nav-link block py-2 hover:text-primary transition-colors">اتصل بنا</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section - القسم الرئيسي مع صورة الخلفية -->
+    <section id="hero" class="hero-bg min-h-screen flex items-center justify-center text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="bounce-in">
+                <!-- الشعار الرئيسي الكبير -->
+                <div class="floating-animation mb-8">
+                    <!-- 
+                    ===========================================
+                    الشعار الرئيسي في الهيرو
+                    ===========================================
+                    لتغيير الشعار الرئيسي، استبدل src أدناه بمسار الصورة الجديدة
+                    يُفضل أن تكون الصورة مربعة (120x120 بكسل أو أكبر)
+                    -->
+                    <img src="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg" 
+                         alt="شعار المدرسة الرئيسي" class="w-32 h-32 mx-auto rounded-full shadow-2xl border-4 border-white">
+                </div>
+                <!-- عنوان المدرسة الرئيسي -->
+                <h2 class="text-5xl md:text-7xl font-bold mb-6">مدرسة الثروات الوطنية</h2>
+                <p class="text-xl md:text-2xl mb-8">بناء مستقبل مشرق لأجيال الغد</p>
+                <!-- أزرار الإجراءات -->
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button onclick="scrollToSection('about')" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover-scale transition-all duration-300">
+                        تعرف على المدرسة
+                    </button>
+                    <button onclick="scrollToSection('plans')" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors">
+                        الخطط الأسبوعية
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- أشكال طافية للزينة -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-white opacity-10 rounded-full floating-animation"></div>
+        <div class="absolute bottom-20 right-10 w-32 h-32 bg-white opacity-10 rounded-full floating-animation" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 left-20 w-16 h-16 bg-white opacity-10 rounded-full floating-animation" style="animation-delay: 4s;"></div>
+    </section>
+
+    <!-- About Section - قسم نبذة عن المدرسة -->
+    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <!-- عنوان القسم -->
+            <div class="text-center mb-16 fade-in">
+                <h3 class="text-4xl font-bold mb-6 text-primary">نبذة عن المدرسة</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- معلومات المدرسة والمميزات -->
+                <div class="slide-up">
+                    <h4 class="text-2xl font-bold mb-6">رؤيتنا ورسالتنا</h4>
+                    <p class="text-lg mb-6 leading-relaxed">
+                        مدرسة الثروات الوطنية الخاصة تسعى لتقديم تعليم متميز وشامل يهدف إلى بناء شخصيات متوازنة قادرة على مواجهة تحديات المستقبل. نحن نؤمن بأن التعليم الجيد هو أساس بناء المجتمعات المتقدمة.
+                    </p>
+                    <!-- قائمة المميزات -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center space-x-3 space-x-reverse feature-item">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span>تعليم متميز</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse feature-item">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span>بيئة تعليمية محفزة</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse feature-item">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span>كادر تعليمي مؤهل</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse feature-item">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <span>أنشطة متنوعة</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- إحصائيات المدرسة مع العدادات المتحركة المحسنة -->
+                <div class="slide-up stats-container">
+                    <div class="bg-gradient-to-br from-primary to-purple-600 rounded-xl p-8 text-white shadow-2xl">
+                        <h5 class="text-2xl font-bold mb-8 text-center">إحصائيات المدرسة</h5>
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- عدد الصفوف - يبدأ من 0 ويعد إلى 12 -->
+                            <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                                <div class="text-4xl font-bold mb-2 counter" data-target="12">12</div>
+                                <div class="text-sm opacity-90">صف دراسي</div>
+                                <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
+                            </div>
+                            <!-- عدد الطلاب - يبدأ من 0 ويعد إلى 1670 -->
+                            <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                                <div class="text-4xl font-bold mb-2 counter" data-target="1670">1670</div>
+                                <div class="text-sm opacity-90">طالب وطالبة</div>
+                                <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
+                            </div>
+                            <!-- عدد المعلمين - يبدأ من 0 ويعد إلى 160 -->
+                            <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                                <div class="text-4xl font-bold mb-2 counter" data-target="160">160</div>
+                                <div class="text-sm opacity-90">معلم ومعلمة</div>
+                                <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
+                            </div>
+                            <!-- سنوات الخبرة - يبدأ من 0 ويعد إلى 10 -->
+                            <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                                <div class="text-4xl font-bold mb-2 counter" data-target="10">10</div>
+                                <div class="text-sm opacity-90">سنة خبرة</div>
+                                <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weekly Plans Section - قسم الخطط الأسبوعية -->
+    <section id="plans" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6 text-primary">الخطط الأسبوعية</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <!-- حالة التحميل -->
+                <div id="plans-loading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p>جاري تحميل الخطط الأسبوعية...</p>
+                </div>
+                
+                <!-- محتوى الخطط -->
+                <div id="plans-content" class="hidden">
+                    <!-- قائمة اختيار الصف -->
+                    <div class="mb-6">
+                        <label for="grade-select" class="block text-sm font-medium mb-2">اختر الصف:</label>
+                        <select id="grade-select" class="w-full md:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-base">
+                            <option value="">اختر الصف</option>
+                            <option value="grade1">الصف الأول</option>
+                            <option value="grade2">الصف الثاني</option>
+                            <option value="grade3">الصف الثالث</option>
+                            <option value="grade4">الصف الرابع</option>
+                            <option value="grade5">الصف الخامس</option>
+                            <option value="grade6">الصف السادس</option>
+                            <option value="grade7">الصف السابع</option>
+                            <option value="grade8">الصف الثامن</option>
+                            <option value="grade9">الصف التاسع</option>
+                            <option value="grade10">الصف العاشر</option>
+                            <option value="grade11">الصف الحادي عشر</option>
+                            <option value="grade12">الصف الثاني عشر</option>
+                        </select>
+                    </div>
+                    
+                    <!-- عرض الخطة -->
+                    <div id="plan-display" class="hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse border border-gray-300 dark:border-gray-600">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th class="border border-gray-300 px-4 py-2">اليوم</th>
+                                        <th class="border border-gray-300 px-4 py-2">المادة</th>
+                                        <th class="border border-gray-300 px-4 py-2">الموضوع</th>
+                                        <th class="border border-gray-300 px-4 py-2">الأنشطة</th>
+                                        <th class="border border-gray-300 px-4 py-2">المعلم</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="plan-table-body">
+                                    <!-- الخطط ستظهر هنا من Firebase -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- رسالة عدم وجود خطط -->
+                    <div id="no-plans-message" class="hidden text-center py-8">
+                        <div class="notification-banner rounded-lg pulse-animation">
+                            <i class="fas fa-clock text-2xl mb-2"></i>
+                            <p class="text-lg font-semibold">الخطط الأسبوعية قيد التنفيذ</p>
+                            <p class="text-sm">سيتم عرض الخطط فور اكتمالها من قبل المعلمين</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section - قسم جداول الحصص المحسن -->
+    <section id="schedule" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6 text-primary">جدول الحصص</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    اطلع على جداول الحصص المفصلة لجميع الصفوف الدراسية من الأول إلى الثاني عشر
+                </p>
+            </div>
+            
+            <!-- حاوي كروت الصفوف المحسن -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div id="grade-cards-container">
+                    <!-- الكروت ستظهر هنا -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section - قسم موقع المدرسة -->
+    <section id="location" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6 text-primary">موقع المدرسة</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- معلومات الاتصال والعنوان -->
+                <div class="slide-up">
+                    <h4 class="text-2xl font-bold mb-6">العنوان والموقع</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 space-x-reverse contact-item">
+                            <i class="fas fa-map-marker-alt text-primary text-xl"></i>
+                            <span>بني ياس شرق 9، أبوظبي</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse contact-item">
+                            <i class="fas fa-phone text-primary text-xl"></i>
+                            <a href="tel:+971543837551" class="hover:text-primary transition-colors">+971 54 383 7551</a>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse contact-item">
+                            <i class="fas fa-envelope text-primary text-xl"></i>
+                            <a href="mailto:9254@adek.gov.ae" class="hover:text-primary transition-colors">9254@adek.gov.ae</a>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse contact-item">
+                            <i class="fas fa-clock text-primary text-xl"></i>
+                            <span>الاثنين - الجمعة: 7:30 ص - 2:30 م</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <button onclick="openDirections()" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors">
+                            <i class="fas fa-directions ml-2"></i>
+                            احصل على الاتجاهات
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- عرض الخريطة -->
+                <div class="slide-up">
+                    <div class="map-container">
+                        <div class="text-center">
+                            <i class="fas fa-map-marked-alt text-6xl mb-4"></i>
+                            <p class="text-lg font-semibold">خريطة المدرسة</p>
+                            <p class="text-sm opacity-90 mt-2">موقع مدرسة الثروات الوطنية الخاصة</p>
+                            <button onclick="openMap()" class="mt-4 bg-white text-green-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                عرض الخريطة التفاعلية
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - قسم وسائل التواصل -->
+    <section id="contact" class="py-20 bg-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6">وسائل التواصل</h3>
+                <div class="w-20 h-1 bg-white mx-auto mb-8"></div>
+            </div>
+            
+            <!-- كروت وسائل التواصل -->
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <!-- الهاتف -->
+                <div class="hover-scale contact-card">
+                    <a href="tel:+971543837551" class="block">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i class="fas fa-phone text-primary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">اتصال مباشر</h4>
+                        <p class="opacity-90">+971 54 383 7551</p>
+                    </a>
+                </div>
+                
+                <!-- واتساب -->
+                <div class="hover-scale contact-card">
+                    <a href="https://wa.me/971543837551" target="_blank" class="block">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i class="fab fa-whatsapp text-primary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">واتساب</h4>
+                        <p class="opacity-90">راسلنا على الواتساب</p>
+                    </a>
+                </div>
+                
+                <!-- فيسبوك -->
+                <div class="hover-scale contact-card">
+                    <a href="https://www.facebook.com/share/1AgsEamQDD" target="_blank" class="block">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                            <i class="fab fa-facebook-f text-primary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-2">فيسبوك</h4>
+                        <p class="opacity-90">تابعنا على فيسبوك</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - ذيل الصفحة -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- المواقع المهمة -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">المواقع المهمة</h5>
+                    <ul class="space-y-2">
+                        <li><a href="https://adek.gov.ae" target="_blank" class="hover:text-primary transition-colors">دائرة التعليم والمعرفة</a></li>
+                        <li><a href="https://tam.adek.gov.ae" target="_blank" class="hover:text-primary transition-colors">موقع تم</a></li>
+                        <li><a href="https://adek.gov.ae" target="_blank" class="hover:text-primary transition-colors">ADEK</a></li>
+                    </ul>
+                </div>
+                
+                <!-- روابط سريعة -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">روابط سريعة</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="nav-link hover:text-primary transition-colors">نبذة عنا</a></li>
+                        <li><a href="#plans" class="nav-link hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                        <li><a href="#schedule" class="nav-link hover:text-primary transition-colors">جدول الحصص</a></li>
+                    </ul>
+                </div>
+                
+                <!-- معلومات الاتصال -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">معلومات الاتصال</h5>
+                    <ul class="space-y-2">
+                        <li><a href="tel:+971543837551" class="hover:text-primary transition-colors">+971 54 383 7551</a></li>
+                        <li><a href="mailto:9254@adek.gov.ae" class="hover:text-primary transition-colors">9254@adek.gov.ae</a></li>
+                        <li>أبوظبي، الإمارات</li>
+                    </ul>
+                </div>
+                
+                <!-- ساعات العمل -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">ساعات العمل</h5>
+                    <ul class="space-y-2">
+                        <li>الاثنين - الجمعة</li>
+                        <li>7:30 ص - 2:30 م</li>
+                        <li>السبت والأحد: إجازة</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- حقوق النشر -->
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="mb-4">جميع الحقوق محفوظة © 2025 مدرسة الثروات الوطنية الخاصة</p>
+                <p class="text-sm text-gray-400">تم التصميم من قبل المهندس حسين نقد</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Schedule Modal - نافذة عرض جداول الحصص -->
+    <div id="schedule-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modal-title" class="text-2xl font-bold text-primary">جدول الحصص</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="schedule-content">
+                <!-- محتوى الجدول سيظهر هنا -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /*
+        ===========================================
+        ملف الجافاسكريبت الرئيسي لموقع المدرسة
+        ===========================================
+        هذا الملف يحتوي على جميع الوظائف والتفاعلات في الموقع
+        */
+        
+        /*
+        ===========================================
+        إعدادات التخصيص - يمكن تعديلها بسهولة
+        ===========================================
+        */
+        
+        // إعدادات Firebase - قاعدة البيانات السحابية
+        const firebaseConfig = {
+            apiKey: "AIzaSyC1aGBA8OapqeNy-5mi1bOzcDGEgP-Xsr0",
+            authDomain: "thawarat-project.firebaseapp.com",
+            databaseURL: "https://thawarat-project-default-rtdb.firebaseio.com",
+            projectId: "thawarat-project",
+            storageBucket: "thawarat-project.firebasestorage.app",
+            messagingSenderId: "847469725368",
+            appId: "1:847469725368:web:550889ff05499c30f5564d",
+            measurementId: "G-0G7JW998ES"
+        };
+
+        /*
+        ===========================================
+        صور جداول الحصص لكل صف
+        ===========================================
+        لتغيير صور جداول الحصص، استبدل الروابط أدناه بروابط الصور الجديدة
+        يُفضل أن تكون الصور بدقة 800x600 أو أعلى
+        يجب أن تكون الصور واضحة ومقروءة
+        */
+        const scheduleImages = {
+            // الصف الأول - صورة حقيقية
+            1: 'https://www2.0zz0.com/2025/07/25/20/612801762.jpeg',
+            
+            // باقي الصفوف - صور تجريبية (يجب استبدالها بالصور الحقيقية)
+            2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e3f2fd"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثاني%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            3: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e8f5e8"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثالث%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            4: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fff3e0"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الرابع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            5: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fce4ec"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الخامس%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            6: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f3e5f5"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف السادس%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            7: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e1f5fe"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف السابع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            8: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e0f2f1"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثامن%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            9: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f9fbe7"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف التاسع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            10: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fff8e1"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف العاشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            11: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23ffebee"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الحادي عشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
+            12: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f1f8e9"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثاني عشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E'
+        };
+
+        // تهيئة Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // المتغيرات العامة
+        let plansData = {}; // تخزين بيانات الخطط الأسبوعية
+        let currentGrade = ''; // الصف المحدد حالياً
+        let isImageVisible = false; // حالة عرض صورة الجدول
+        let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
+        let currentScheduleGradeName = ''; // اسم الصف المفتوح في المودال
+        let statsAnimated = false; // للتأكد من تحريك الإحصائيات مرة واحدة فقط
+
+        /*
+        ===========================================
+        تهيئة التطبيق عند تحميل الصفحة
+        ===========================================
+        */
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners(); // إعداد مستمعات الأحداث
+            generateGradeCards(); // إنشاء كروت الصفوف
+            loadInitialData(); // تحميل البيانات الأولية
+            setupAnimations(); // إعداد الحركات والانيميشن
+        }
+
+        /*
+        ===========================================
+        إعداد مستمعات الأحداث (Event Listeners)
+        ===========================================
+        */
+        function setupEventListeners() {
+            // زر قائمة الهاتف المحمول
+            document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+            
+            // روابط التنقل
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+            
+            // اختيار الصف للخطط الأسبوعية
+            document.getElementById('grade-select').addEventListener('change', handleGradeSelection);
+            
+            // إغلاق المودال
+            document.getElementById('close-modal').addEventListener('click', closeScheduleModal);
+            
+            // إغلاق المودال عند النقر خارجه
+            document.getElementById('schedule-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeScheduleModal();
+                }
+            });
+        }
+
+        /*
+        ===========================================
+        وظائف التنقل والقوائم
+        ===========================================
+        */
+        
+        // تبديل عرض قائمة الهاتف المحمول
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // التعامل مع النقر على روابط التنقل
+        function handleNavigation(e) {
+            e.preventDefault();
+            const target = e.target.getAttribute('href');
+            if (target && target.startsWith('#')) {
+                scrollToSection(target.substring(1));
+                // إخفاء قائمة الهاتف إذا كانت مفتوحة
+                document.getElementById('mobile-menu').classList.add('hidden');
+            }
+        }
+
+        // التمرير السلس إلى القسم المحدد
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        /*
+        ===========================================
+        إنشاء كروت الصفوف الدراسية المحسنة
+        ===========================================
+        */
+        function generateGradeCards() {
+            const container = document.getElementById('grade-cards-container');
+            const gradeNames = {
+                1: 'الأول', 2: 'الثاني', 3: 'الثالث', 4: 'الرابع',
+                5: 'الخامس', 6: 'السادس', 7: 'السابع', 8: 'الثامن',
+                9: 'التاسع', 10: 'العاشر', 11: 'الحادي عشر', 12: 'الثاني عشر'
+            };
+
+            // إنشاء كرت لكل صف من 1 إلى 12
+            for (let i = 1; i <= 12; i++) {
+                const card = document.createElement('div');
+                card.className = 'schedule-card';
+                card.setAttribute('data-grade', i);
+                card.innerHTML = `
+                    <div class="schedule-card-header">
+                        <div class="grade-number">${i}</div>
+                        <div class="grade-title">الصف ${gradeNames[i]}</div>
+                    </div>
+                    <div class="schedule-card-body">
+                        <div class="flex flex-col gap-3">
+                            <button onclick="openScheduleModal(${i}, '${gradeNames[i]}')" class="schedule-btn view-btn">
+                                <i class="fas fa-eye ml-2"></i>
+                                عرض الجدول
+                            </button>
+                            <button onclick="downloadScheduleImage(${i}, '${gradeNames[i]}')" class="schedule-btn download-btn">
+                                <i class="fas fa-download ml-2"></i>
+                                تحميل الصورة
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            }
+        }
+
+        /*
+        ===========================================
+        وظائف المودال (نافذة عرض الجداول)
+        ===========================================
+        */
+        
+        // فتح مودال عرض جدول الحصص
+        function openScheduleModal(grade, gradeName) {
+            const modal = document.getElementById('schedule-modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('schedule-content');
+            
+            currentScheduleGrade = grade;
+            currentScheduleGradeName = gradeName;
+            isImageVisible = false;
+            
+            title.textContent = `جدول الحصص - الصف ${gradeName}`;
+            
+            content.className = 'bg-white dark:bg-gray-800 rounded-lg shadow-lg';
+            content.innerHTML = `
+                <div class="text-center p-6">
+                    <div class="mb-6">
+                        <i class="fas fa-calendar-alt text-primary text-6xl mb-4"></i>
+                        <h4 class="text-2xl font-bold text-primary mb-2">جدول الحصص</h4>
+                        <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">الصف ${gradeName}</p>
+                        
+                        <!-- حاوي عرض صورة الجدول -->
+                        <div id="schedule-image-container" class="mb-6 hidden schedule-image-display">
+                            <img id="schedule-image" src="${scheduleImages[grade]}" alt="جدول الحصص - الصف ${gradeName}" 
+                                 class="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 cursor-pointer"
+                                 onclick="toggleImageFullscreen(this)">
+                        </div>
+                        
+                        <!-- أزرار الإجراءات -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button id="show-schedule-btn" onclick="toggleScheduleImage()" 
+                                    class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center">
+                                <i class="fas fa-eye ml-2"></i>
+                                <span>عرض الصورة</span>
+                            </button>
+                            
+                            <button onclick="downloadScheduleImage(${grade}, '${gradeName}')" 
+                                    class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center">
+                                <i class="fas fa-download ml-2"></i>
+                                تحميل الصورة
+                            </button>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <i class="fas fa-info-circle ml-2"></i>
+                                يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // إضافة تأثير الظهور التدريجي
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+            }, 10);
+        }
+
+        // تبديل عرض/إخفاء صورة الجدول
+        function toggleScheduleImage() {
+            const container = document.getElementById('schedule-image-container');
+            const btn = document.getElementById('show-schedule-btn');
+            const btnIcon = btn.querySelector('i');
+            const btnText = btn.querySelector('span');
+            
+            if (!isImageVisible) {
+                // إظهار الصورة
+                container.classList.remove('hidden');
+                container.classList.add('show');
+                btnIcon.className = 'fas fa-eye-slash ml-2';
+                btnText.textContent = 'إخفاء الصورة';
+                isImageVisible = true;
+            } else {
+                // إخفاء الصورة
+                container.classList.add('hide');
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                    container.classList.remove('show', 'hide');
+                }, 300);
+                btnIcon.className = 'fas fa-eye ml-2';
+                btnText.textContent = 'عرض الصورة';
+                isImageVisible = false;
+            }
+        }
+
+        // تبديل العرض بملء الشاشة للصورة
+        function toggleImageFullscreen(img) {
+            if (img.style.position === 'fixed') {
+                // الخروج من ملء الشاشة
+                img.style.position = '';
+                img.style.top = '';
+                img.style.left = '';
+                img.style.width = '';
+                img.style.height = '';
+                img.style.zIndex = '';
+                img.style.backgroundColor = '';
+                img.style.objectFit = '';
+                img.style.cursor = 'pointer';
+                document.body.style.overflow = '';
+            } else {
+                // الدخول في وضع ملء الشاشة
+                img.style.position = 'fixed';
+                img.style.top = '0';
+                img.style.left = '0';
+                img.style.width = '100vw';
+                img.style.height = '100vh';
+                img.style.zIndex = '9999';
+                img.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                img.style.objectFit = 'contain';
+                img.style.cursor = 'zoom-out';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // تحميل صورة جدول الحصص
+        function downloadScheduleImage(grade, gradeName) {
+            const imageUrl = scheduleImages[grade];
+            const fileName = `جدول_الحصص_الصف_${gradeName}.jpg`;
+            
+            // إظهار رسالة التحميل
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            loadingDiv.innerHTML = `
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <div class="loading-spinner w-4 h-4"></div>
+                    <span>جاري تحميل الصورة...</span>
+                </div>
+            `;
+            document.body.appendChild(loadingDiv);
+            
+            // إنشاء رابط التحميل
+            const link = document.createElement('a');
+            link.href = imageUrl;
+            link.download = fileName;
+            link.target = '_blank';
+            
+            // التعامل مع الروابط الخارجية
+            if (imageUrl.startsWith('http') && !imageUrl.includes(window.location.hostname)) {
+                link.click();
+                setTimeout(() => {
+                    loadingDiv.remove();
+                    showSuccessMessage('تم فتح الصورة في تبويب جديد. يمكنك حفظها من المتصفح.');
+                }, 1000);
+            } else {
+                // تحميل مباشر للصور المحلية
+                fetch(imageUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        link.href = url;
+                        link.click();
+                        window.URL.revokeObjectURL(url);
+                        loadingDiv.remove();
+                        showSuccessMessage('تم تحميل الصورة بنجاح!');
+                    })
+                    .catch(error => {
+                        console.error('Download error:', error);
+                        link.click();
+                        loadingDiv.remove();
+                        showSuccessMessage('تم فتح الصورة في تبويب جديد. يمكنك حفظها من المتصفح.');
+                    });
+            }
+        }
+
+        // إغلاق مودال جدول الحصص
+        function closeScheduleModal() {
+            const modal = document.getElementById('schedule-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                // إعادة تعيين المتغيرات
+                isImageVisible = false;
+                currentScheduleGrade = null;
+                currentScheduleGradeName = '';
+                // إعادة تعيين overflow للصفحة في حالة كانت الصورة بملء الشاشة
+                document.body.style.overflow = '';
+            }, 200);
+        }
+
+        /*
+        ===========================================
+        وظائف الخطط الأسبوعية
+        ===========================================
+        */
+        
+        // تحميل البيانات الأولية
+        function loadInitialData() {
+            // إظهار حالة التحميل لفترة قصيرة ثم عرض المحتوى
+            setTimeout(() => {
+                document.getElementById('plans-loading').classList.add('hidden');
+                document.getElementById('plans-content').classList.remove('hidden');
+                loadWeeklyPlans();
+            }, 1500);
+        }
+
+        // التعامل مع اختيار الصف
+        function handleGradeSelection() {
+            const selectedGrade = document.getElementById('grade-select').value;
+            currentGrade = selectedGrade;
+            
+            if (selectedGrade) {
+                loadWeeklyPlan(selectedGrade);
+            } else {
+                document.getElementById('plan-display').classList.add('hidden');
+                document.getElementById('no-plans-message').classList.add('hidden');
+            }
+        }
+
+        // تحميل الخطط الأسبوعية من Firebase
+        async function loadWeeklyPlans() {
+            try {
+                // الاستماع للتحديثات المباشرة من Firebase
+                db.collection('weeklyPlans').onSnapshot((snapshot) => {
+                    plansData = {};
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (!plansData[data.grade]) {
+                            plansData[data.grade] = [];
+                        }
+                        plansData[data.grade].push({
+                            id: doc.id,
+                            ...data
+                        });
+                    });
+                    
+                    // تحديث العرض الحالي إذا كان هناك صف محدد
+                    if (currentGrade) {
+                        loadWeeklyPlan(currentGrade);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading plans:', error);
+                showErrorMessage('حدث خطأ في تحميل الخطط الأسبوعية');
+            }
+        }
+
+        // عرض خطة أسبوعية لصف محدد
+        function loadWeeklyPlan(grade) {
+            const planDisplay = document.getElementById('plan-display');
+            const noPlansMessage = document.getElementById('no-plans-message');
+            const tableBody = document.getElementById('plan-table-body');
+            
+            const gradePlans = plansData[grade] || [];
+            
+            if (gradePlans.length === 0) {
+                // لا توجد خطط - إظهار رسالة
+                planDisplay.classList.add('hidden');
+                noPlansMessage.classList.remove('hidden');
+                return;
+            }
+            
+            // توجد خطط - إظهار الجدول
+            noPlansMessage.classList.add('hidden');
+            planDisplay.classList.remove('hidden');
+            
+            // ترتيب الخطط حسب أيام الأسبوع
+            const dayOrder = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+            gradePlans.sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
+            
+            // إفراغ الجدول وإضافة البيانات الجديدة
+            tableBody.innerHTML = '';
+            gradePlans.forEach(plan => {
+                const row = tableBody.insertRow();
+                row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
+                row.innerHTML = `
+                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-medium">${plan.day}</td>
+                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.subject}</td>
+                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.topic}</td>
+                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.activities}</td>
+                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.teacherName || 'غير محدد'}</td>
+                `;
+            });
+        }
+
+        /*
+        ===========================================
+        إعداد الحركات والانيميشن المحسنة
+        ===========================================
+        */
+        function setupAnimations() {
+            // تحريك العدادات (الإحصائيات) - تم تحسينها
+            const animateCounter = (counter) => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 ثانية
+                const stepTime = 50; // تحديث كل 50 ميللي ثانية
+                const steps = duration / stepTime;
+                const increment = target / steps;
+                let current = 0;
+                
+                counter.classList.add('stats-animate');
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current);
+                }, stepTime);
+            };
+
+            // مراقب تقاطع العناصر (Intersection Observer) للحركات
+            const observerOptions = {
+                threshold: 0.3, // تفعيل عند ظهور 30% من العنصر
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // تفعيل حركة الظهور
+                        if (entry.target.classList.contains('slide-up') || 
+                            entry.target.classList.contains('fade-in')) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                        
+                        // تفعيل حركة العدادات (تشغيل مرة واحدة فقط)
+                        if (entry.target.classList.contains('stats-container') && !statsAnimated) {
+                            statsAnimated = true;
+                            const counters = entry.target.querySelectorAll('.counter');
+                            counters.forEach((counter, index) => {
+                                // تأخير بسيط بين العدادات للحصول على تأثير متدرج
+                                setTimeout(() => {
+                                    animateCounter(counter);
+                                }, index * 200);
+                            });
+                        }
+                        
+                        // تفعيل حركة عناصر المميزات
+                        if (entry.target.classList.contains('feature-item')) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // مراقبة العناصر وإعداد الحركات الأولية
+            document.querySelectorAll('.slide-up, .fade-in, .stats-container, .feature-item').forEach(el => {
+                el.style.opacity = '0';
+                if (el.classList.contains('slide-up')) {
+                    el.style.transform = 'translateY(30px)';
+                }
+                if (el.classList.contains('feature-item')) {
+                    el.style.transform = 'translateX(-20px)';
+                }
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }
+
+        /*
+        ===========================================
+        وظائف الروابط الخارجية
+        ===========================================
+        */
+        
+        // فتح الاتجاهات في خرائط جوجل
+        function openDirections() {
+            const address = encodeURIComponent('مدرسة الثروات الوطنية الخاصة، أبوظبي، الإمارات العربية المتحدة');
+            window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');
+        }
+
+        // فتح الخريطة في خرائط جوجل
+        function openMap() {
+            const address = encodeURIComponent('مدرسة الثروات الوطنية الخاصة، أبوظبي، الإمارات العربية المتحدة');
+            window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
+        }
+
+        /*
+        ===========================================
+        وظائف مساعدة (Utility Functions)
+        ===========================================
+        */
+        
+        // إظهار رسالة خطأ
+        function showErrorMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            alertDiv.innerHTML = `
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // إزالة الرسالة بعد 5 ثوان
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // إظهار رسالة نجاح
+        function showSuccessMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            alertDiv.innerHTML = `
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            // إزالة الرسالة بعد 3 ثوان
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        /*
+        ===========================================
+        تحسينات إضافية للتفاعل
+        ===========================================
+        */
+        
+        // إضافة تأثيرات التمرير للعناصر التفاعلية
+        const style = document.createElement('style');
+        style.textContent = `
+            .contact-item:hover i {
+                transform: scale(1.2);
+                transition: transform 0.3s ease;
+            }
+            
+            .contact-card:hover {
+                transform: translateY(-5px);
+                transition: transform 0.3s ease;
+            }
+            
+            .logo-glow:hover {
+                box-shadow: 0 0 30px rgba(93, 92, 222, 0.5);
+                transition: box-shadow 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // إغلاق الصورة بملء الشاشة عند الضغط على Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const fullscreenImg = document.querySelector('img[style*="position: fixed"]');
+                if (fullscreenImg) {
+                    toggleImageFullscreen(fullscreenImg);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
