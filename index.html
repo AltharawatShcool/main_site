@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/firebase@9.15.0/firebase-firestore-compat.min.js"></script>
     <style>
         /* استيراد خط تاجوال العربي من جوجل فونتس */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
         
         /* تطبيق الخط على جميع العناصر */
         * {
@@ -131,16 +131,27 @@
         
         /* 
         ===========================================
-        تصميم جداول الحصص المحسن
+        تصميم جداول الحصص الاحترافي المحدث
         ===========================================
         */
+        .schedule-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
         .schedule-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15), 
+                        0 8px 25px rgba(102, 126, 234, 0.1);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
         }
         
         .schedule-card::before {
@@ -150,82 +161,233 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            background: linear-gradient(45deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+        
+        .schedule-card::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #5D5CDE, #10B981, #F59E0B, #EF4444);
+            border-radius: 27px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            filter: blur(6px);
         }
         
         .schedule-card:hover::before {
             opacity: 1;
         }
         
+        .schedule-card:hover::after {
+            opacity: 0.4;
+        }
+        
         .schedule-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transform: translateY(-20px) rotateX(8deg) rotateY(2deg);
+            box-shadow: 0 35px 80px rgba(102, 126, 234, 0.3), 
+                        0 15px 40px rgba(102, 126, 234, 0.2);
         }
         
         .schedule-card-header {
-            background: linear-gradient(45deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-            backdrop-filter: blur(10px);
-            padding: 2rem;
+            background: linear-gradient(45deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15));
+            backdrop-filter: blur(20px);
+            padding: 2.5rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
+            z-index: 2;
         }
         
         .schedule-card-header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shimmer 3s ease-in-out infinite;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: shimmer 5s ease-in-out infinite;
+            z-index: -1;
         }
         
         @keyframes shimmer {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
+            0%, 100% { 
+                transform: rotate(0deg) scale(1); 
+                opacity: 0.3;
+            }
+            50% { 
+                transform: rotate(180deg) scale(1.2); 
+                opacity: 0.7;
+            }
         }
         
         .grade-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff, #f8fafc, #e2e8f0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background-clip: text;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
             position: relative;
             z-index: 2;
+            margin-bottom: 0.5rem;
+            font-family: 'Tajawal', 'Arial Black', sans-serif;
+            letter-spacing: -2px;
         }
         
         .grade-title {
             color: white;
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        
+        .schedule-card-body {
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            padding: 2.5rem 2rem;
             position: relative;
             z-index: 2;
         }
         
-        .schedule-card-body {
-            background: white;
-            padding: 1.5rem;
+        .schedule-card-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, #5D5CDE, #10B981);
+            border-radius: 3px;
+            box-shadow: 0 2px 10px rgba(93, 92, 222, 0.3);
+        }
+        
+        .schedule-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
         }
         
         .schedule-btn {
             width: 100%;
-            padding: 0.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .schedule-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+            z-index: 1;
+        }
+        
+        .schedule-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .schedule-btn i {
+            transition: all 0.4s ease;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .schedule-btn span {
+            z-index: 2;
+            position: relative;
+        }
+        
+        .schedule-btn:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .view-btn {
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED, #8B5CF6);
+            color: white;
+            box-shadow: 0 8px 25px rgba(93, 92, 222, 0.4);
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #4C4BC7, #6D28D9, #7C3AED);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(93, 92, 222, 0.5);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #10B981, #059669, #047857);
+            color: white;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #0F9A7A, #047857, #065F46);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+        }
+        
+        /* 
+        ===========================================
+        تحسين المودال (النافذة المنبثقة)
+        ===========================================
+        */
+        .schedule-modal {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .schedule-modal-content {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED);
+            color: white;
+            padding: 2rem;
+            border-radius: 24px 24px 0 0;
             position: relative;
             overflow: hidden;
         }
         
-        .schedule-btn::before {
+        .modal-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -233,48 +395,174 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            animation: slide 3s infinite;
         }
         
-        .schedule-btn:hover::before {
-            left: 100%;
+        @keyframes slide {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
         
-        .view-btn {
-            background: linear-gradient(45deg, #5D5CDE, #7C3AED);
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .close-modal-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
         
-        .view-btn:hover {
-            background: linear-gradient(45deg, #4C4BC7, #6D28D9);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(93, 92, 222, 0.3);
+        .close-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
         }
         
-        .download-btn {
-            background: linear-gradient(45deg, #10B981, #059669);
-            color: white;
+        .modal-body {
+            padding: 3rem;
         }
         
-        .download-btn:hover {
-            background: linear-gradient(45deg, #0F9A7A, #047857);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        .schedule-image-wrapper {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .schedule-image {
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .schedule-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .modal-btn {
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .info-panel {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+            border: 2px solid #0ea5e9;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0ea5e9, #0284c7);
         }
         
         /* تحسينات الشاشات الصغيرة */
         @media (max-width: 768px) {
+            .schedule-cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .grade-number {
+                font-size: 3rem;
+            }
+            
+            .grade-title {
+                font-size: 1.25rem;
+            }
+            
+            .schedule-card-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .schedule-card-body {
+                padding: 2rem 1.5rem;
+            }
+            
+            .schedule-btn {
+                padding: 1rem 1.25rem;
+                font-size: 0.95rem;
+            }
+            
+            .schedule-card:hover {
+                transform: translateY(-10px);
+            }
+            
+            .modal-body {
+                padding: 2rem 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .schedule-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
             .grade-number {
                 font-size: 2.5rem;
             }
             
             .schedule-card-header {
-                padding: 1.5rem;
+                padding: 1.5rem 1rem;
             }
             
             .schedule-card-body {
-                padding: 1rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                min-width: auto;
             }
         }
         
@@ -656,16 +944,14 @@
             <div class="text-center mb-16">
                 <h3 class="text-4xl font-bold mb-6 text-primary">جدول الحصص</h3>
                 <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
-                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
                     اطلع على جداول الحصص المفصلة لجميع الصفوف الدراسية من الأول إلى الثاني عشر
                 </p>
             </div>
             
             <!-- حاوي كروت الصفوف المحسن -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div id="grade-cards-container">
-                    <!-- الكروت ستظهر هنا -->
-                </div>
+            <div class="schedule-cards-grid" id="grade-cards-container">
+                <!-- الكروت ستظهر هنا -->
             </div>
         </div>
     </section>
@@ -825,17 +1111,17 @@
         </div>
     </footer>
 
-    <!-- Schedule Modal - نافذة عرض جداول الحصص -->
-    <div id="schedule-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 id="modal-title" class="text-2xl font-bold text-primary">جدول الحصص</h3>
-                <button id="close-modal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                    <i class="fas fa-times text-2xl"></i>
+    <!-- Schedule Modal - نافذة عرض جداول الحصص المحسنة -->
+    <div id="schedule-modal" class="schedule-modal fixed inset-0 hidden items-center justify-center z-50">
+        <div class="schedule-modal-content max-w-7xl w-full mx-4 max-h-[95vh] overflow-y-auto">
+            <div class="modal-header flex justify-between items-center">
+                <h3 id="modal-title" class="modal-title">جدول الحصص</h3>
+                <button id="close-modal" class="close-modal-btn">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div id="schedule-content">
+            <div id="schedule-content" class="modal-body">
                 <!-- محتوى الجدول سيظهر هنا -->
             </div>
         </div>
@@ -844,7 +1130,7 @@
     <script>
         /*
         ===========================================
-        ملف الجافاسكريبت الرئيسي لموقع المدرسة
+        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن
         ===========================================
         هذا الملف يحتوي على جميع الوظائف والتفاعلات في الموقع
         */
@@ -1007,14 +1293,14 @@
                         <div class="grade-title">الصف ${gradeNames[i]}</div>
                     </div>
                     <div class="schedule-card-body">
-                        <div class="flex flex-col gap-3">
+                        <div class="schedule-actions">
                             <button onclick="openScheduleModal(${i}, '${gradeNames[i]}')" class="schedule-btn view-btn">
-                                <i class="fas fa-eye ml-2"></i>
-                                عرض الجدول
+                                <i class="fas fa-eye"></i>
+                                <span>عرض الجدول</span>
                             </button>
                             <button onclick="downloadScheduleImage(${i}, '${gradeNames[i]}')" class="schedule-btn download-btn">
-                                <i class="fas fa-download ml-2"></i>
-                                تحميل الصورة
+                                <i class="fas fa-download"></i>
+                                <span>تحميل الصورة</span>
                             </button>
                         </div>
                     </div>
@@ -1026,7 +1312,7 @@
 
         /*
         ===========================================
-        وظائف المودال (نافذة عرض الجداول)
+        وظائف المودال المحسنة (نافذة عرض الجداول)
         ===========================================
         */
         
@@ -1042,41 +1328,61 @@
             
             title.textContent = `جدول الحصص - الصف ${gradeName}`;
             
-            content.className = 'bg-white dark:bg-gray-800 rounded-lg shadow-lg';
             content.innerHTML = `
-                <div class="text-center p-6">
-                    <div class="mb-6">
-                        <i class="fas fa-calendar-alt text-primary text-6xl mb-4"></i>
-                        <h4 class="text-2xl font-bold text-primary mb-2">جدول الحصص</h4>
-                        <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">الصف ${gradeName}</p>
+                <div class="text-center">
+                    <div class="mb-8">
+                        <div class="flex items-center justify-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                                <i class="fas fa-calendar-alt text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName}</h4>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">اطلع على الجدول الزمني المفصل للحصص الدراسية</p>
                         
                         <!-- حاوي عرض صورة الجدول -->
-                        <div id="schedule-image-container" class="mb-6 hidden schedule-image-display">
-                            <img id="schedule-image" src="${scheduleImages[grade]}" alt="جدول الحصص - الصف ${gradeName}" 
-                                 class="w-full max-w-4xl mx-auto rounded-lg shadow-lg border border-gray-200 dark:border-gray-600 cursor-pointer"
-                                 onclick="toggleImageFullscreen(this)">
+                        <div id="schedule-image-container" class="mb-8 hidden schedule-image-display">
+                            <div class="schedule-image-wrapper">
+                                <img id="schedule-image" src="${scheduleImages[grade]}" alt="جدول الحصص - الصف ${gradeName}" 
+                                     class="schedule-image w-full max-w-5xl mx-auto cursor-pointer"
+                                     onclick="toggleImageFullscreen(this)">
+                            </div>
                         </div>
                         
                         <!-- أزرار الإجراءات -->
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <div class="action-buttons">
                             <button id="show-schedule-btn" onclick="toggleScheduleImage()" 
-                                    class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center">
-                                <i class="fas fa-eye ml-2"></i>
+                                    class="modal-btn view-btn">
+                                <i class="fas fa-eye"></i>
                                 <span>عرض الصورة</span>
                             </button>
                             
                             <button onclick="downloadScheduleImage(${grade}, '${gradeName}')" 
-                                    class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center">
-                                <i class="fas fa-download ml-2"></i>
-                                تحميل الصورة
+                                    class="modal-btn download-btn">
+                                <i class="fas fa-download"></i>
+                                <span>تحميل الصورة</span>
+                            </button>
+                            
+                            <button onclick="printSchedule(${grade}, '${gradeName}')" 
+                                    class="modal-btn bg-orange-500 hover:bg-orange-600 text-white">
+                                <i class="fas fa-print"></i>
+                                <span>طباعة الجدول</span>
                             </button>
                         </div>
                         
-                        <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                            <p class="text-sm text-gray-600 dark:text-gray-400">
-                                <i class="fas fa-info-circle ml-2"></i>
-                                يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي
-                            </p>
+                        <!-- معلومات إضافية -->
+                        <div class="info-panel">
+                            <div class="flex items-start text-right">
+                                <i class="fas fa-info-circle text-blue-500 text-xl ml-3 mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold text-blue-700 dark:text-blue-300 mb-2">معلومات هامة</h5>
+                                    <ul class="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                                        <li>• يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي</li>
+                                        <li>• انقر على الصورة للعرض بملء الشاشة</li>
+                                        <li>• يمكنك تحميل الصورة لحفظها على جهازك</li>
+                                        <li>• للاستفسارات اتصل على: +971 54 383 7551</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1103,9 +1409,14 @@
                 // إظهار الصورة
                 container.classList.remove('hidden');
                 container.classList.add('show');
-                btnIcon.className = 'fas fa-eye-slash ml-2';
+                btnIcon.className = 'fas fa-eye-slash';
                 btnText.textContent = 'إخفاء الصورة';
                 isImageVisible = true;
+                
+                // تمرير سلس إلى الصورة
+                setTimeout(() => {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
             } else {
                 // إخفاء الصورة
                 container.classList.add('hide');
@@ -1113,7 +1424,7 @@
                     container.classList.add('hidden');
                     container.classList.remove('show', 'hide');
                 }, 300);
-                btnIcon.className = 'fas fa-eye ml-2';
+                btnIcon.className = 'fas fa-eye';
                 btnText.textContent = 'عرض الصورة';
                 isImageVisible = false;
             }
@@ -1146,6 +1457,38 @@
                 img.style.cursor = 'zoom-out';
                 document.body.style.overflow = 'hidden';
             }
+        }
+
+        // طباعة جدول الحصص
+        function printSchedule(grade, gradeName) {
+            const imageUrl = scheduleImages[grade];
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>جدول الحصص - الصف ${gradeName}</title>
+                        <style>
+                            body { margin: 0; padding: 20px; text-align: center; font-family: Arial, sans-serif; }
+                            h1 { color: #5D5CDE; margin-bottom: 20px; }
+                            img { max-width: 100%; height: auto; border: 2px solid #5D5CDE; border-radius: 10px; }
+                            .info { margin-top: 20px; color: #666; font-size: 14px; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>جدول الحصص - الصف ${gradeName}</h1>
+                        <img src="${imageUrl}" alt="جدول الحصص - الصف ${gradeName}">
+                        <div class="info">
+                            <p>مدرسة الثروات الوطنية الخاصة</p>
+                            <p>تاريخ الطباعة: ${new Date().toLocaleDateString('ar-AE')}</p>
+                        </div>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
         }
 
         // تحميل صورة جدول الحصص
@@ -1479,6 +1822,10 @@
                 const fullscreenImg = document.querySelector('img[style*="position: fixed"]');
                 if (fullscreenImg) {
                     toggleImageFullscreen(fullscreenImg);
+                }
+                // إغلاق المودال أيضاً عند الضغط على Escape
+                if (!document.getElementById('schedule-modal').classList.contains('hidden')) {
+                    closeScheduleModal();
                 }
             }
         });
