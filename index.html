@@ -668,6 +668,132 @@
         .counter {
             transition: all 0.3s ease;
         }
+
+        /* 
+        ===========================================
+        تصميم قسم الأنشطة
+        ===========================================
+        */
+        .activity-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border-left: 5px solid #5D5CDE;
+            position: relative;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(93, 92, 222, 0.2);
+        }
+
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #5D5CDE, #10B981, #F59E0B);
+        }
+
+        .activity-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-upcoming {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+
+        .status-completed {
+            background: linear-gradient(135deg, #6B7280, #4B5563);
+            color: white;
+        }
+
+        .activity-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 20px rgba(93, 92, 222, 0.3);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .no-activities-message {
+            background: linear-gradient(135deg, #F59E0B, #EAB308);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .no-activities-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .no-activities-message i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .activity-date-badge {
+            background: rgba(93, 92, 222, 0.1);
+            color: #5D5CDE;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 2px solid rgba(93, 92, 222, 0.2);
+        }
+
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6B7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-meta i {
+            color: #5D5CDE;
+            width: 16px;
+        }
     </style>
     <script>
         /* إعداد تخصيص ألوان Tailwind CSS */
@@ -724,6 +850,7 @@
                     <li><a href="#hero" class="nav-link hover:text-primary transition-colors">الرئيسية</a></li>
                     <li><a href="#about" class="nav-link hover:text-primary transition-colors">نبذة عنا</a></li>
                     <li><a href="#plans" class="nav-link hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                    <li><a href="#activities" class="nav-link hover:text-primary transition-colors">الأنشطة</a></li>
                     <li><a href="#schedule" class="nav-link hover:text-primary transition-colors">جدول الحصص</a></li>
                     <li><a href="#location" class="nav-link hover:text-primary transition-colors">الموقع</a></li>
                     <li><a href="#contact" class="nav-link hover:text-primary transition-colors">اتصل بنا</a></li>
@@ -741,6 +868,7 @@
                     <li><a href="#hero" class="nav-link block py-2 hover:text-primary transition-colors">الرئيسية</a></li>
                     <li><a href="#about" class="nav-link block py-2 hover:text-primary transition-colors">نبذة عنا</a></li>
                     <li><a href="#plans" class="nav-link block py-2 hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                    <li><a href="#activities" class="nav-link block py-2 hover:text-primary transition-colors">الأنشطة</a></li>
                     <li><a href="#schedule" class="nav-link block py-2 hover:text-primary transition-colors">جدول الحصص</a></li>
                     <li><a href="#location" class="nav-link block py-2 hover:text-primary transition-colors">الموقع</a></li>
                     <li><a href="#contact" class="nav-link block py-2 hover:text-primary transition-colors">اتصل بنا</a></li>
@@ -938,8 +1066,46 @@
         </div>
     </section>
 
+    <!-- Activities Section - قسم الأنشطة المدرسية -->
+    <section id="activities" class="py-20 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6 text-primary">الأنشطة المدرسية</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                    تعرف على أحدث الأنشطة والفعاليات المدرسية التي تهدف إلى تنمية قدرات الطلاب ومواهبهم
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <!-- حالة التحميل -->
+                <div id="activities-loading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p>جاري تحميل الأنشطة...</p>
+                </div>
+                
+                <!-- محتوى الأنشطة -->
+                <div id="activities-content" class="hidden">
+                    <div class="activities-grid" id="activities-grid">
+                        <!-- الأنشطة ستظهر هنا من Firebase -->
+                    </div>
+                    
+                    <!-- رسالة عدم وجود أنشطة -->
+                    <div id="no-activities-message" class="hidden">
+                        <div class="no-activities-message">
+                            <i class="fas fa-calendar-day"></i>
+                            <h4 class="text-2xl font-bold mb-4">سيتم عرض الأنشطة في وقت لاحق</h4>
+                            <p class="text-lg mb-4">نحن نعمل على إعداد برنامج شامل للأنشطة المدرسية</p>
+                            <p class="text-base opacity-90">ترقبوا المزيد من الأنشطة والفعاليات المميزة قريباً</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Schedule Section - قسم جداول الحصص المحسن -->
-    <section id="schedule" class="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="schedule" class="py-20">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h3 class="text-4xl font-bold mb-6 text-primary">جدول الحصص</h3>
@@ -957,7 +1123,7 @@
     </section>
 
     <!-- Location Section - قسم موقع المدرسة -->
-    <section id="location" class="py-20">
+    <section id="location" class="py-20 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h3 class="text-4xl font-bold mb-6 text-primary">موقع المدرسة</h3>
@@ -1078,6 +1244,7 @@
                     <ul class="space-y-2">
                         <li><a href="#about" class="nav-link hover:text-primary transition-colors">نبذة عنا</a></li>
                         <li><a href="#plans" class="nav-link hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
+                        <li><a href="#activities" class="nav-link hover:text-primary transition-colors">الأنشطة</a></li>
                         <li><a href="#schedule" class="nav-link hover:text-primary transition-colors">جدول الحصص</a></li>
                     </ul>
                 </div>
@@ -1185,6 +1352,7 @@
 
         // المتغيرات العامة
         let plansData = {}; // تخزين بيانات الخطط الأسبوعية
+        let activitiesData = []; // تخزين بيانات الأنشطة
         let currentGrade = ''; // الصف المحدد حالياً
         let isImageVisible = false; // حالة عرض صورة الجدول
         let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
@@ -1571,6 +1739,13 @@
                 document.getElementById('plans-content').classList.remove('hidden');
                 loadWeeklyPlans();
             }, 1500);
+
+            // تحميل الأنشطة
+            setTimeout(() => {
+                document.getElementById('activities-loading').classList.add('hidden');
+                document.getElementById('activities-content').classList.remove('hidden');
+                loadActivities();
+            }, 1000);
         }
 
         // التعامل مع اختيار الصف
@@ -1649,6 +1824,181 @@
                     <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.activities}</td>
                     <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.teacherName || 'غير محدد'}</td>
                 `;
+            });
+        }
+
+        /*
+        ===========================================
+        وظائف الأنشطة المدرسية
+        ===========================================
+        */
+        
+        // تحميل الأنشطة من Firebase
+        async function loadActivities() {
+            try {
+                // الاستماع للتحديثات المباشرة من Firebase
+                db.collection('activities').onSnapshot((snapshot) => {
+                    activitiesData = [];
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        activitiesData.push({
+                            id: doc.id,
+                            ...data
+                        });
+                    });
+                    
+                    displayActivities();
+                });
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                // في حال فشل التحميل، عرض رسالة "سيتم عرض الأنشطة في وقت لاحق"
+                displayNoActivitiesMessage();
+            }
+        }
+
+        // عرض الأنشطة
+        function displayActivities() {
+            const activitiesGrid = document.getElementById('activities-grid');
+            const noActivitiesMessage = document.getElementById('no-activities-message');
+            
+            if (activitiesData.length === 0) {
+                // لا توجد أنشطة - إظهار رسالة
+                displayNoActivitiesMessage();
+                return;
+            }
+            
+            // توجد أنشطة - إظهار الشبكة
+            noActivitiesMessage.classList.add('hidden');
+            activitiesGrid.classList.remove('hidden');
+            
+            // ترتيب الأنشطة حسب التاريخ (الأحدث أولاً)
+            activitiesData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // إفراغ الشبكة وإضافة البطاقات الجديدة
+            activitiesGrid.innerHTML = '';
+            activitiesData.forEach(activity => {
+                const activityCard = createActivityCard(activity);
+                activitiesGrid.appendChild(activityCard);
+            });
+        }
+
+        // عرض رسالة عدم وجود أنشطة
+        function displayNoActivitiesMessage() {
+            const activitiesGrid = document.getElementById('activities-grid');
+            const noActivitiesMessage = document.getElementById('no-activities-message');
+            
+            activitiesGrid.classList.add('hidden');
+            noActivitiesMessage.classList.remove('hidden');
+        }
+
+        // إنشاء بطاقة نشاط
+        function createActivityCard(activity) {
+            const card = document.createElement('div');
+            card.className = 'activity-card p-6';
+            
+            const status = getActivityStatus(activity.date);
+            const statusClass = getActivityStatusClass(status);
+            const statusText = getActivityStatusText(status);
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <div class="activity-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <span class="activity-status ${statusClass}">${statusText}</span>
+                </div>
+                
+                <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">${activity.name}</h4>
+                <p class="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">${activity.description}</p>
+                
+                <div class="space-y-3">
+                    <div class="activity-meta">
+                        <i class="fas fa-calendar"></i>
+                        <span>${formatDate(activity.date)}</span>
+                    </div>
+                    
+                    <div class="activity-meta">
+                        <i class="fas fa-clock"></i>
+                        <span>${activity.time}</span>
+                    </div>
+                    
+                    ${activity.location ? `
+                        <div class="activity-meta">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${activity.location}</span>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="activity-meta">
+                        <i class="fas fa-users"></i>
+                        <span>${getTargetText(activity.target)}</span>
+                    </div>
+                </div>
+                
+                ${activity.notes ? `
+                    <div class="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-sticky-note ml-2"></i>${activity.notes}
+                        </p>
+                    </div>
+                ` : ''}
+            `;
+            
+            return card;
+        }
+
+        // تحديد حالة النشاط بناءً على التاريخ
+        function getActivityStatus(activityDate) {
+            const today = new Date();
+            const activity = new Date(activityDate);
+            
+            today.setHours(0, 0, 0, 0);
+            activity.setHours(0, 0, 0, 0);
+            
+            if (activity < today) return 'completed';
+            if (activity.getTime() === today.getTime()) return 'active';
+            return 'upcoming';
+        }
+
+        // الحصول على فئة CSS لحالة النشاط
+        function getActivityStatusClass(status) {
+            switch (status) {
+                case 'completed': return 'status-completed';
+                case 'active': return 'status-active';
+                case 'upcoming': return 'status-upcoming';
+                default: return 'status-upcoming';
+            }
+        }
+
+        // الحصول على نص حالة النشاط
+        function getActivityStatusText(status) {
+            switch (status) {
+                case 'completed': return 'مكتمل';
+                case 'active': return 'جاري اليوم';
+                case 'upcoming': return 'قادم';
+                default: return 'قادم';
+            }
+        }
+
+        // الحصول على نص الفئة المستهدفة
+        function getTargetText(target) {
+            switch (target) {
+                case 'all': return 'جميع الصفوف';
+                case 'primary': return 'المرحلة الابتدائية';
+                case 'middle': return 'المرحلة المتوسطة';
+                case 'high': return 'المرحلة الثانوية';
+                case 'specific': return 'صفوف محددة';
+                default: return target || 'جميع الصفوف';
+            }
+        }
+
+        // تنسيق التاريخ
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-AE', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
         }
 
