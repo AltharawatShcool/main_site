@@ -671,7 +671,7 @@
 
         /* 
         ===========================================
-        تصميم قسم الأنشطة
+        تصميم قسم الأنشطة المحدث مع إخفاء المؤرشفة
         ===========================================
         */
         .activity-card {
@@ -793,6 +793,12 @@
         .activity-meta i {
             color: #5D5CDE;
             width: 16px;
+        }
+
+        /* تحسينات للعناصر المؤرشفة - في حالة ظهورها بالخطأ */
+        .archived-item {
+            opacity: 0.5;
+            display: none !important;
         }
     </style>
     <script>
@@ -1066,7 +1072,7 @@
         </div>
     </section>
 
-    <!-- Activities Section - قسم الأنشطة المدرسية -->
+    <!-- Activities Section - قسم الأنشطة المدرسية المحدث -->
     <section id="activities" class="py-20 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
@@ -1297,7 +1303,7 @@
     <script>
         /*
         ===========================================
-        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن
+        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن مع إخفاء العناصر المؤرشفة
         ===========================================
         هذا الملف يحتوي على جميع الوظائف والتفاعلات في الموقع
         */
@@ -1727,7 +1733,7 @@
 
         /*
         ===========================================
-        وظائف الخطط الأسبوعية
+        وظائف الخطط الأسبوعية مع إخفاء المؤرشفة
         ===========================================
         */
         
@@ -1761,7 +1767,7 @@
             }
         }
 
-        // تحميل الخطط الأسبوعية من Firebase
+        // تحميل الخطط الأسبوعية من Firebase مع إخفاء المؤرشفة
         async function loadWeeklyPlans() {
             try {
                 // الاستماع للتحديثات المباشرة من Firebase
@@ -1769,13 +1775,16 @@
                     plansData = {};
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        if (!plansData[data.grade]) {
-                            plansData[data.grade] = [];
+                        // إخفاء الخطط المؤرشفة من العرض العام
+                        if (!data.archived) {
+                            if (!plansData[data.grade]) {
+                                plansData[data.grade] = [];
+                            }
+                            plansData[data.grade].push({
+                                id: doc.id,
+                                ...data
+                            });
                         }
-                        plansData[data.grade].push({
-                            id: doc.id,
-                            ...data
-                        });
                     });
                     
                     // تحديث العرض الحالي إذا كان هناك صف محدد
@@ -1829,11 +1838,11 @@
 
         /*
         ===========================================
-        وظائف الأنشطة المدرسية
+        وظائف الأنشطة المدرسية مع إخفاء المؤرشفة
         ===========================================
         */
         
-        // تحميل الأنشطة من Firebase
+        // تحميل الأنشطة من Firebase مع إخفاء المؤرشفة
         async function loadActivities() {
             try {
                 // الاستماع للتحديثات المباشرة من Firebase
@@ -1841,10 +1850,13 @@
                     activitiesData = [];
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        activitiesData.push({
-                            id: doc.id,
-                            ...data
-                        });
+                        // إخفاء الأنشطة المؤرشفة من العرض العام
+                        if (!data.archived) {
+                            activitiesData.push({
+                                id: doc.id,
+                                ...data
+                            });
+                        }
                     });
                     
                     displayActivities();
