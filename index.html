@@ -1,8 +1,25 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <!-- Meta Description -->
+    <meta name="description" content="مدرسة الثروات الوطنية الخاصة – تعليم متميز من مرحلة الروضة حتى الصف التاسع، بيئة تعليمية حديثة، مناهج متطورة، ورعاية شاملة للطلاب.">
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="مدرسة الثروات, مدرسة خاصة, التعليم في أبوظبي, مناهج حديثة, روضة, ابتدائي, اعدادي, تعليم متميز, مدرسة وطنية, مدارس الإمارات">
+    <!-- Meta Author -->
+    <meta name="author" content="مدرسة الثروات الوطنية الخاصة">
+    <!-- Meta Charset -->
     <meta charset="UTF-8">
+    <!-- Meta Viewport (Responsive for mobile) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="مدرسة الثروات الوطنية الخاصة">
+    <meta property="og:description" content="تعليم متميز من مرحلة الروضة حتى الصف التاسع، بيئة تعليمية حديثة، مناهج متطورة، ورعاية شاملة للطلاب.">
+    <meta property="og:image" content="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg">
+    <meta property="og:url" content="https://altharawatshcool.github.io/main_site/">
+    <meta property="og:type" content="website">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg">
+    <link rel="shortcut icon" href="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg">
     <title>مدرسة الثروات الوطنية الخاصة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -437,22 +454,62 @@
             padding: 3rem;
         }
         
-        .schedule-image-wrapper {
+        .schedule-table-wrapper {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .schedule-image {
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
             border-radius: 16px;
+            overflow: hidden;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             transition: all 0.4s ease;
+            background: white;
         }
         
-        .schedule-image:hover {
+        .schedule-table:hover {
             transform: scale(1.02);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .schedule-table td {
+            padding: 0.8rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 500;
+        }
+        
+        .schedule-table tbody tr:hover {
+            background: rgba(93, 92, 222, 0.1);
+        }
+        
+        .schedule-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .time-cell {
+            background: rgba(93, 92, 222, 0.1);
+            font-weight: 700;
+            color: #5D5CDE;
+        }
+        
+        .subject-cell {
+            background: rgba(16, 185, 129, 0.1);
+            color: #047857;
+            font-weight: 600;
         }
         
         .action-buttons {
@@ -564,43 +621,18 @@
             .modal-btn {
                 min-width: auto;
             }
+            
+            .schedule-table {
+                font-size: 0.8rem;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem;
+            }
         }
         
-        /* 
-        ===========================================
-        تخصيص صور جداول الحصص
-        ===========================================
-        */
-        .schedule-image {
-            background-size: cover;
-            background-position: center;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .schedule-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-        
-        .schedule-image > * {
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* تصميم حاوي الخريطة */
+        /* حاوي الخريطة */
         .map-container {
             background: linear-gradient(135deg, #10B981, #059669);
             min-height: 300px;
@@ -633,21 +665,6 @@
             border-radius: 50%;
             padding: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* تحسينات لعرض الصور في المودال */
-        .schedule-image-display {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .schedule-image-display.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .schedule-image-display.hide {
-            opacity: 0;
-            transform: scale(0.9);
         }
         
         /* تحسينات الإحصائيات */
@@ -800,6 +817,34 @@
             opacity: 0.5;
             display: none !important;
         }
+
+        .no-schedule-message {
+            background: linear-gradient(135deg, #F59E0B, #EAB308);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .no-schedule-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        .no-schedule-message i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
     </style>
     <script>
         /* إعداد تخصيص ألوان Tailwind CSS */
@@ -835,13 +880,6 @@
                 <!-- شعار المدرسة واسمها -->
                 <div class="flex items-center space-x-4 space-x-reverse">
                     <div class="school-logo logo-glow">
-                        <!-- 
-                        ===========================================
-                        شعار المدرسة في الهيدر
-                        ===========================================
-                        لتغيير شعار المدرسة، استبدل src أدناه بمسار الصورة الجديدة
-                        يُفضل أن تكون الصورة مربعة (60x60 بكسل أو أكبر)
-                        -->
                         <img src="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg" 
                              alt="شعار المدرسة" class="w-12 h-12 rounded-full object-cover">
                     </div>
@@ -890,13 +928,6 @@
             <div class="bounce-in">
                 <!-- الشعار الرئيسي الكبير -->
                 <div class="floating-animation mb-8">
-                    <!-- 
-                    ===========================================
-                    الشعار الرئيسي في الهيرو
-                    ===========================================
-                    لتغيير الشعار الرئيسي، استبدل src أدناه بمسار الصورة الجديدة
-                    يُفضل أن تكون الصورة مربعة (120x120 بكسل أو أكبر)
-                    -->
                     <img src="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg" 
                          alt="شعار المدرسة الرئيسي" class="w-32 h-32 mx-auto rounded-full shadow-2xl border-4 border-white">
                 </div>
@@ -1303,7 +1334,7 @@
     <script>
         /*
         ===========================================
-        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن مع إخفاء العناصر المؤرشفة
+        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن
         ===========================================
         هذا الملف يحتوي على جميع الوظائف والتفاعلات في الموقع
         */
@@ -1326,31 +1357,8 @@
             measurementId: "G-0G7JW998ES"
         };
 
-        /*
-        ===========================================
-        صور جداول الحصص لكل صف
-        ===========================================
-        لتغيير صور جداول الحصص، استبدل الروابط أدناه بروابط الصور الجديدة
-        يُفضل أن تكون الصور بدقة 800x600 أو أعلى
-        يجب أن تكون الصور واضحة ومقروءة
-        */
-        const scheduleImages = {
-            // الصف الأول - صورة حقيقية
-            1: 'https://www2.0zz0.com/2025/07/25/20/612801762.jpeg',
-            
-            // باقي الصفوف - صور تجريبية (يجب استبدالها بالصور الحقيقية)
-            2: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e3f2fd"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثاني%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            3: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e8f5e8"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثالث%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            4: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fff3e0"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الرابع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            5: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fce4ec"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الخامس%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            6: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f3e5f5"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف السادس%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            7: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e1f5fe"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف السابع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            8: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23e0f2f1"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثامن%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            9: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f9fbe7"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف التاسع%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            10: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23fff8e1"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف العاشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            11: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23ffebee"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الحادي عشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E',
-            12: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"%3E%3Crect width="800" height="600" fill="%23f1f8e9"/%3E%3Ctext x="400" y="100" text-anchor="middle" font-size="24" font-weight="bold"%3Eجدول الصف الثاني عشر%3C/text%3E%3Ctext x="400" y="300" text-anchor="middle" font-size="16"%3Eضع هنا صورة جدول الحصص الفعلي%3C/text%3E%3C/svg%3E'
-        };
+        // متغيرات لتخزين جداول الحصص من Firebase
+        let allSchedules = [];
 
         // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
@@ -1360,7 +1368,6 @@
         let plansData = {}; // تخزين بيانات الخطط الأسبوعية
         let activitiesData = []; // تخزين بيانات الأنشطة
         let currentGrade = ''; // الصف المحدد حالياً
-        let isImageVisible = false; // حالة عرض صورة الجدول
         let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
         let currentScheduleGradeName = ''; // اسم الصف المفتوح في المودال
         let statsAnimated = false; // للتأكد من تحريك الإحصائيات مرة واحدة فقط
@@ -1379,6 +1386,7 @@
             generateGradeCards(); // إنشاء كروت الصفوف
             loadInitialData(); // تحميل البيانات الأولية
             setupAnimations(); // إعداد الحركات والانيميشن
+            loadSchedulesData(); // تحميل جداول الحصص من Firebase
         }
 
         /*
@@ -1406,6 +1414,24 @@
                 if (e.target === this) {
                     closeScheduleModal();
                 }
+            });
+        }
+
+        /*
+        ===========================================
+        تحميل جداول الحصص من Firebase
+        ===========================================
+        */
+        function loadSchedulesData() {
+            db.collection('schedules').onSnapshot((snapshot) => {
+                allSchedules = [];
+                snapshot.forEach((doc) => {
+                    const scheduleData = doc.data();
+                    allSchedules.push({
+                        id: doc.id,
+                        ...scheduleData
+                    });
+                });
             });
         }
 
@@ -1472,10 +1498,6 @@
                                 <i class="fas fa-eye"></i>
                                 <span>عرض الجدول</span>
                             </button>
-                            <button onclick="downloadScheduleImage(${i}, '${gradeNames[i]}')" class="schedule-btn download-btn">
-                                <i class="fas fa-download"></i>
-                                <span>تحميل الصورة</span>
-                            </button>
                         </div>
                     </div>
                 `;
@@ -1498,69 +1520,88 @@
             
             currentScheduleGrade = grade;
             currentScheduleGradeName = gradeName;
-            isImageVisible = false;
             
             title.textContent = `جدول الحصص - الصف ${gradeName}`;
             
-            content.innerHTML = `
-                <div class="text-center">
-                    <div class="mb-8">
-                        <div class="flex items-center justify-center mb-6">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                                <i class="fas fa-calendar-alt text-white text-2xl"></i>
+            // البحث عن جدول الحصص للصف المحدد
+            const gradeSchedule = allSchedules.find(schedule => parseInt(schedule.grade) === grade);
+            
+            if (gradeSchedule && gradeSchedule.schedule && gradeSchedule.schedule.length > 0) {
+                // عرض الجدول
+                content.innerHTML = `
+                    <div class="text-center">
+                        <div class="mb-8">
+                            <div class="flex items-center justify-center mb-6">
+                                <div class="w-16 h-16 bg-gradient-to-r from-primary to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-calendar-alt text-white text-2xl"></i>
+                                </div>
                             </div>
-                        </div>
-                        <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName}</h4>
-                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">اطلع على الجدول الزمني المفصل للحصص الدراسية</p>
-                        
-                        <!-- حاوي عرض صورة الجدول -->
-                        <div id="schedule-image-container" class="mb-8 hidden schedule-image-display">
-                            <div class="schedule-image-wrapper">
-                                <img id="schedule-image" src="${scheduleImages[grade]}" alt="جدول الحصص - الصف ${gradeName}" 
-                                     class="schedule-image w-full max-w-5xl mx-auto cursor-pointer"
-                                     onclick="toggleImageFullscreen(this)">
+                            <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName}</h4>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">الجدول الزمني المفصل للحصص الدراسية</p>
+                            
+                            <!-- عرض جدول الحصص -->
+                            <div class="schedule-table-wrapper">
+                                <table class="schedule-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الوقت</th>
+                                            <th>الأحد</th>
+                                            <th>الاثنين</th>
+                                            <th>الثلاثاء</th>
+                                            <th>الأربعاء</th>
+                                            <th>الخميس</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${generateScheduleTable(gradeSchedule.schedule)}
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        
-                        <!-- أزرار الإجراءات -->
-                        <div class="action-buttons">
-                            <button id="show-schedule-btn" onclick="toggleScheduleImage()" 
-                                    class="modal-btn view-btn">
-                                <i class="fas fa-eye"></i>
-                                <span>عرض الصورة</span>
-                            </button>
                             
-                            <button onclick="downloadScheduleImage(${grade}, '${gradeName}')" 
-                                    class="modal-btn download-btn">
-                                <i class="fas fa-download"></i>
-                                <span>تحميل الصورة</span>
-                            </button>
-                            
-                            <button onclick="printSchedule(${grade}, '${gradeName}')" 
-                                    class="modal-btn bg-orange-500 hover:bg-orange-600 text-white">
-                                <i class="fas fa-print"></i>
-                                <span>طباعة الجدول</span>
-                            </button>
-                        </div>
-                        
-                        <!-- معلومات إضافية -->
-                        <div class="info-panel">
-                            <div class="flex items-start text-right">
-                                <i class="fas fa-info-circle text-blue-500 text-xl ml-3 mt-1"></i>
-                                <div>
-                                    <h5 class="font-bold text-blue-700 dark:text-blue-300 mb-2">معلومات هامة</h5>
-                                    <ul class="text-sm text-blue-600 dark:text-blue-400 space-y-1">
-                                        <li>• يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي</li>
-                                        <li>• انقر على الصورة للعرض بملء الشاشة</li>
-                                        <li>• يمكنك تحميل الصورة لحفظها على جهازك</li>
-                                        <li>• للاستفسارات اتصل على: +971 54 383 7551</li>
-                                    </ul>
+                            <!-- معلومات إضافية -->
+                            <div class="info-panel">
+                                <div class="flex items-start text-right">
+                                    <i class="fas fa-info-circle text-blue-500 text-xl ml-3 mt-1"></i>
+                                    <div>
+                                        <h5 class="font-bold text-blue-700 dark:text-blue-300 mb-2">معلومات هامة</h5>
+                                        <ul class="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                                            <li>• يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي</li>
+                                            <li>• وقت الحصة الواحدة: 45 دقيقة</li>
+                                            <li>• وقت الاستراحة: 15 دقيقة بين الحصص</li>
+                                            <li>• للاستفسارات اتصل على: +971 54 383 7551</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                // عرض رسالة عدم توفر الجدول
+                content.innerHTML = `
+                    <div class="text-center">
+                        <div class="no-schedule-message">
+                            <i class="fas fa-calendar-times"></i>
+                            <h4 class="text-2xl font-bold mb-4">جدول الحصص غير متوفر حالياً</h4>
+                            <p class="text-lg mb-4">سيتم رفع جدول الحصص للصف ${gradeName} قريباً</p>
+                            <p class="text-base opacity-90">يرجى المراجعة لاحقاً أو التواصل مع الإدارة</p>
+                        </div>
+                        
+                        <!-- معلومات الاتصال -->
+                        <div class="info-panel">
+                            <div class="flex items-start text-right">
+                                <i class="fas fa-phone text-blue-500 text-xl ml-3 mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold text-blue-700 dark:text-blue-300 mb-2">للاستفسار</h5>
+                                    <p class="text-sm text-blue-600 dark:text-blue-400">
+                                        يمكنكم التواصل مع إدارة المدرسة على الرقم: +971 54 383 7551
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1572,147 +1613,53 @@
             }, 10);
         }
 
-        // تبديل عرض/إخفاء صورة الجدول
-        function toggleScheduleImage() {
-            const container = document.getElementById('schedule-image-container');
-            const btn = document.getElementById('show-schedule-btn');
-            const btnIcon = btn.querySelector('i');
-            const btnText = btn.querySelector('span');
+        // إنشاء جدول الحصص HTML
+        function generateScheduleTable(scheduleData) {
+            let tableRows = '';
             
-            if (!isImageVisible) {
-                // إظهار الصورة
-                container.classList.remove('hidden');
-                container.classList.add('show');
-                btnIcon.className = 'fas fa-eye-slash';
-                btnText.textContent = 'إخفاء الصورة';
-                isImageVisible = true;
-                
-                // تمرير سلس إلى الصورة
-                setTimeout(() => {
-                    container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            } else {
-                // إخفاء الصورة
-                container.classList.add('hide');
-                setTimeout(() => {
-                    container.classList.add('hidden');
-                    container.classList.remove('show', 'hide');
-                }, 300);
-                btnIcon.className = 'fas fa-eye';
-                btnText.textContent = 'عرض الصورة';
-                isImageVisible = false;
-            }
-        }
+            // مواعيد الحصص الافتراضية
+            const timeSlots = [
+                '7:30 - 8:15',
+                '8:15 - 9:00',
+                '9:00 - 9:45',
+                '9:45 - 10:00', // استراحة
+                '10:00 - 10:45',
+                '10:45 - 11:30',
+                '11:30 - 12:15',
+                '12:15 - 1:00',
+                '1:00 - 1:45'
+            ];
 
-        // تبديل العرض بملء الشاشة للصورة
-        function toggleImageFullscreen(img) {
-            if (img.style.position === 'fixed') {
-                // الخروج من ملء الشاشة
-                img.style.position = '';
-                img.style.top = '';
-                img.style.left = '';
-                img.style.width = '';
-                img.style.height = '';
-                img.style.zIndex = '';
-                img.style.backgroundColor = '';
-                img.style.objectFit = '';
-                img.style.cursor = 'pointer';
-                document.body.style.overflow = '';
-            } else {
-                // الدخول في وضع ملء الشاشة
-                img.style.position = 'fixed';
-                img.style.top = '0';
-                img.style.left = '0';
-                img.style.width = '100vw';
-                img.style.height = '100vh';
-                img.style.zIndex = '9999';
-                img.style.backgroundColor = 'rgba(0,0,0,0.9)';
-                img.style.objectFit = 'contain';
-                img.style.cursor = 'zoom-out';
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        // طباعة جدول الحصص
-        function printSchedule(grade, gradeName) {
-            const imageUrl = scheduleImages[grade];
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>جدول الحصص - الصف ${gradeName}</title>
-                        <style>
-                            body { margin: 0; padding: 20px; text-align: center; font-family: Arial, sans-serif; }
-                            h1 { color: #5D5CDE; margin-bottom: 20px; }
-                            img { max-width: 100%; height: auto; border: 2px solid #5D5CDE; border-radius: 10px; }
-                            .info { margin-top: 20px; color: #666; font-size: 14px; }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>جدول الحصص - الصف ${gradeName}</h1>
-                        <img src="${imageUrl}" alt="جدول الحصص - الصف ${gradeName}">
-                        <div class="info">
-                            <p>مدرسة الثروات الوطنية الخاصة</p>
-                            <p>تاريخ الطباعة: ${new Date().toLocaleDateString('ar-AE')}</p>
-                        </div>
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.onload = function() {
-                printWindow.print();
-                printWindow.close();
-            };
-        }
-
-        // تحميل صورة جدول الحصص
-        function downloadScheduleImage(grade, gradeName) {
-            const imageUrl = scheduleImages[grade];
-            const fileName = `جدول_الحصص_الصف_${gradeName}.jpg`;
-            
-            // إظهار رسالة التحميل
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-            loadingDiv.innerHTML = `
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <div class="loading-spinner w-4 h-4"></div>
-                    <span>جاري تحميل الصورة...</span>
-                </div>
-            `;
-            document.body.appendChild(loadingDiv);
-            
-            // إنشاء رابط التحميل
-            const link = document.createElement('a');
-            link.href = imageUrl;
-            link.download = fileName;
-            link.target = '_blank';
-            
-            // التعامل مع الروابط الخارجية
-            if (imageUrl.startsWith('http') && !imageUrl.includes(window.location.hostname)) {
-                link.click();
-                setTimeout(() => {
-                    loadingDiv.remove();
-                    showSuccessMessage('تم فتح الصورة في تبويب جديد. يمكنك حفظها من المتصفح.');
-                }, 1000);
-            } else {
-                // تحميل مباشر للصور المحلية
-                fetch(imageUrl)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const url = window.URL.createObjectURL(blob);
-                        link.href = url;
-                        link.click();
-                        window.URL.revokeObjectURL(url);
-                        loadingDiv.remove();
-                        showSuccessMessage('تم تحميل الصورة بنجاح!');
-                    })
-                    .catch(error => {
-                        console.error('Download error:', error);
-                        link.click();
-                        loadingDiv.remove();
-                        showSuccessMessage('تم فتح الصورة في تبويب جديد. يمكنك حفظها من المتصفح.');
+            timeSlots.forEach((timeSlot, index) => {
+                if (timeSlot === '9:45 - 10:00') {
+                    // صف الاستراحة
+                    tableRows += `
+                        <tr>
+                            <td class="time-cell">${timeSlot}</td>
+                            <td colspan="5" class="text-center bg-yellow-100 font-bold text-yellow-800">استراحة</td>
+                        </tr>
+                    `;
+                } else {
+                    // البحث عن الحصص في هذا الوقت
+                    const daySchedules = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'].map(day => {
+                        const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
+                        return dayData ? dayData.subject : '-';
                     });
-            }
+
+                    tableRows += `
+                        <tr>
+                            <td class="time-cell">${timeSlot}</td>
+                            <td class="subject-cell">${daySchedules[0]}</td>
+                            <td class="subject-cell">${daySchedules[1]}</td>
+                            <td class="subject-cell">${daySchedules[2]}</td>
+                            <td class="subject-cell">${daySchedules[3]}</td>
+                            <td class="subject-cell">${daySchedules[4]}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            return tableRows;
         }
 
         // إغلاق مودال جدول الحصص
@@ -1723,11 +1670,8 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
                 // إعادة تعيين المتغيرات
-                isImageVisible = false;
                 currentScheduleGrade = null;
                 currentScheduleGradeName = '';
-                // إعادة تعيين overflow للصفحة في حالة كانت الصورة بملء الشاشة
-                document.body.style.overflow = '';
             }, 200);
         }
 
@@ -2178,14 +2122,10 @@
         `;
         document.head.appendChild(style);
 
-        // إغلاق الصورة بملء الشاشة عند الضغط على Escape
+        // إغلاق المودال عند الضغط على Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                const fullscreenImg = document.querySelector('img[style*="position: fixed"]');
-                if (fullscreenImg) {
-                    toggleImageFullscreen(fullscreenImg);
-                }
-                // إغلاق المودال أيضاً عند الضغط على Escape
+                // إغلاق المودال عند الضغط على Escape
                 if (!document.getElementById('schedule-modal').classList.contains('hidden')) {
                     closeScheduleModal();
                 }
