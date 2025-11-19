@@ -554,6 +554,75 @@
             height: 100%;
             background: linear-gradient(to bottom, #0ea5e9, #0284c7);
         }
+
+        /* تصميم الخطط الأسبوعية المحدث */
+        .weekly-plan-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .weekly-plan-table th,
+        .weekly-plan-table td {
+            border: 1px solid #dee2e6;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .weekly-plan-table th {
+            background: #5D5CDE;
+            color: white;
+            font-weight: 700;
+        }
+
+        .weekly-plan-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .weekly-plan-table .subject-header {
+            background: rgba(93, 92, 222, 0.1);
+            color: #5D5CDE;
+            font-weight: 700;
+            text-align: right;
+            padding: 1rem;
+        }
+
+        .teacher-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .plan-cell {
+            background: #f0fdf4;
+            border-left: 3px solid #10b981;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .plan-header-cell {
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-weight: 700;
+        }
+
+        .week-info-banner {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
         
         /* تحسينات الشاشات الصغيرة */
         @media (max-width: 768px) {
@@ -628,6 +697,15 @@
             
             .schedule-table th,
             .schedule-table td {
+                padding: 0.5rem;
+            }
+
+            .weekly-plan-table {
+                font-size: 0.8rem;
+            }
+
+            .weekly-plan-table th,
+            .weekly-plan-table td {
                 padding: 0.5rem;
             }
         }
@@ -880,7 +958,7 @@
                 <!-- شعار المدرسة واسمها -->
                 <div class="flex items-center space-x-4 space-x-reverse">
                     <div class="school-logo logo-glow">
-                        <img src="https://www2.0zz0.com/2025/07/26/10/237361813.jpeg" 
+                        <img src="https://ibb.co/WNKh2N1j" 
                              alt="شعار المدرسة" class="w-12 h-12 rounded-full object-cover">
                     </div>
                     <div>
@@ -1033,7 +1111,7 @@
         </div>
     </section>
 
-    <!-- Weekly Plans Section - قسم الخطط الأسبوعية -->
+    <!-- Weekly Plans Section - قسم الخطط الأسبوعية المحدث -->
     <section id="plans" class="py-20">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
@@ -1050,41 +1128,66 @@
                 
                 <!-- محتوى الخطط -->
                 <div id="plans-content" class="hidden">
-                    <!-- قائمة اختيار الصف -->
-                    <div class="mb-6">
-                        <label for="grade-select" class="block text-sm font-medium mb-2">اختر الصف:</label>
-                        <select id="grade-select" class="w-full md:w-auto px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-base">
-                            <option value="">اختر الصف</option>
-                            <option value="grade1">الصف الأول</option>
-                            <option value="grade2">الصف الثاني</option>
-                            <option value="grade3">الصف الثالث</option>
-                            <option value="grade4">الصف الرابع</option>
-                            <option value="grade5">الصف الخامس</option>
-                            <option value="grade6">الصف السادس</option>
-                            <option value="grade7">الصف السابع</option>
-                            <option value="grade8">الصف الثامن</option>
-                            <option value="grade9">الصف التاسع</option>
-                            <option value="grade10">الصف العاشر</option>
-                            <option value="grade11">الصف الحادي عشر</option>
-                            <option value="grade12">الصف الثاني عشر</option>
-                        </select>
+                    <!-- قائمة اختيار الصف والشعبة -->
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label for="grade-select" class="block text-sm font-medium mb-2">اختر الصف:</label>
+                            <select id="grade-select" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-base">
+                                <option value="">اختر الصف</option>
+                                <option value="grade1">الصف الأول</option>
+                                <option value="grade2">الصف الثاني</option>
+                                <option value="grade3">الصف الثالث</option>
+                                <option value="grade4">الصف الرابع</option>
+                                <option value="grade5">الصف الخامس</option>
+                                <option value="grade6">الصف السادس</option>
+                                <option value="grade7">الصف السابع</option>
+                                <option value="grade8">الصف الثامن</option>
+                                <option value="grade9">الصف التاسع</option>
+                                <option value="grade10">الصف العاشر</option>
+                                <option value="grade11">الصف الحادي عشر</option>
+                                <option value="grade12">الصف الثاني عشر</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="section-select" class="block text-sm font-medium mb-2">اختر الشعبة:</label>
+                            <select id="section-select" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-base">
+                                <option value="">اختر الشعبة</option>
+                                <option value="1">شعبة 1</option>
+                                <option value="2">شعبة 2</option>
+                                <option value="3">شعبة 3</option>
+                                <option value="4">شعبة 4</option>
+                                <option value="5">شعبة 5</option>
+                                <option value="6">شعبة 6</option>
+                                <option value="7">شعبة 7</option>
+                                <option value="8">شعبة 8</option>
+                                <option value="9">شعبة 9</option>
+                                <option value="10">شعبة 10</option>
+                            </select>
+                        </div>
                     </div>
                     
-                    <!-- عرض الخطة -->
-                    <div id="plan-display" class="hidden">
+                    <!-- عرض معلومات الأسبوع -->
+                    <div id="week-info" class="hidden week-info-banner">
+                        <i class="fas fa-calendar-week ml-2"></i>
+                        <span id="week-title">خطة أسبوع</span>
+                    </div>
+                    
+                    <!-- عرض الخطة الأسبوعية -->
+                    <div id="weekly-plan-display" class="hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full border-collapse border border-gray-300 dark:border-gray-600">
+                            <table class="weekly-plan-table" id="weekly-plan-table">
                                 <thead>
-                                    <tr class="bg-primary text-white">
-                                        <th class="border border-gray-300 px-4 py-2">اليوم</th>
-                                        <th class="border border-gray-300 px-4 py-2">المادة</th>
-                                        <th class="border border-gray-300 px-4 py-2">الموضوع</th>
-                                        <th class="border border-gray-300 px-4 py-2">الأنشطة</th>
-                                        <th class="border border-gray-300 px-4 py-2">المعلم</th>
+                                    <tr class="plan-header-cell">
+                                        <th class="text-right">المادة</th>
+                                        <th id="monday-header">الإثنين</th>
+                                        <th id="tuesday-header">الثلاثاء</th>
+                                        <th id="wednesday-header">الأربعاء</th>
+                                        <th id="thursday-header">الخميس</th>
+                                        <th id="friday-header">الجمعة</th>
                                     </tr>
                                 </thead>
-                                <tbody id="plan-table-body">
-                                    <!-- الخطط ستظهر هنا من Firebase -->
+                                <tbody id="weekly-plan-body">
+                                    <!-- الخطط ستظهر هنا -->
                                 </tbody>
                             </table>
                         </div>
@@ -1368,6 +1471,7 @@
         let plansData = {}; // تخزين بيانات الخطط الأسبوعية
         let activitiesData = []; // تخزين بيانات الأنشطة
         let currentGrade = ''; // الصف المحدد حالياً
+        let currentSection = ''; // الشعبة المحددة حالياً
         let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
         let currentScheduleGradeName = ''; // اسم الصف المفتوح في المودال
         let statsAnimated = false; // للتأكد من تحريك الإحصائيات مرة واحدة فقط
@@ -1403,8 +1507,9 @@
                 link.addEventListener('click', handleNavigation);
             });
             
-            // اختيار الصف للخطط الأسبوعية
+            // اختيار الصف والشعبة للخطط الأسبوعية
             document.getElementById('grade-select').addEventListener('change', handleGradeSelection);
+            document.getElementById('section-select').addEventListener('change', handleSectionSelection);
             
             // إغلاق المودال
             document.getElementById('close-modal').addEventListener('click', closeScheduleModal);
@@ -1677,7 +1782,7 @@
 
         /*
         ===========================================
-        وظائف الخطط الأسبوعية مع إخفاء المؤرشفة
+        وظائف الخطط الأسبوعية المحدثة مع الهيكل الجديد
         ===========================================
         */
         
@@ -1703,12 +1808,30 @@
             const selectedGrade = document.getElementById('grade-select').value;
             currentGrade = selectedGrade;
             
-            if (selectedGrade) {
-                loadWeeklyPlan(selectedGrade);
+            if (selectedGrade && currentSection) {
+                loadWeeklyPlan(selectedGrade, currentSection);
             } else {
-                document.getElementById('plan-display').classList.add('hidden');
-                document.getElementById('no-plans-message').classList.add('hidden');
+                hideWeeklyPlan();
             }
+        }
+
+        // التعامل مع اختيار الشعبة
+        function handleSectionSelection() {
+            const selectedSection = document.getElementById('section-select').value;
+            currentSection = selectedSection;
+            
+            if (currentGrade && selectedSection) {
+                loadWeeklyPlan(currentGrade, selectedSection);
+            } else {
+                hideWeeklyPlan();
+            }
+        }
+
+        // إخفاء الخطة الأسبوعية
+        function hideWeeklyPlan() {
+            document.getElementById('week-info').classList.add('hidden');
+            document.getElementById('weekly-plan-display').classList.add('hidden');
+            document.getElementById('no-plans-message').classList.add('hidden');
         }
 
         // تحميل الخطط الأسبوعية من Firebase مع إخفاء المؤرشفة
@@ -1721,19 +1844,17 @@
                         const data = doc.data();
                         // إخفاء الخطط المؤرشفة من العرض العام
                         if (!data.archived) {
-                            if (!plansData[data.grade]) {
-                                plansData[data.grade] = [];
-                            }
-                            plansData[data.grade].push({
+                            const key = `${data.grade}-${data.section}`;
+                            plansData[key] = {
                                 id: doc.id,
                                 ...data
-                            });
+                            };
                         }
                     });
                     
-                    // تحديث العرض الحالي إذا كان هناك صف محدد
-                    if (currentGrade) {
-                        loadWeeklyPlan(currentGrade);
+                    // تحديث العرض الحالي إذا كان هناك صف وشعبة محددان
+                    if (currentGrade && currentSection) {
+                        loadWeeklyPlan(currentGrade, currentSection);
                     }
                 });
             } catch (error) {
@@ -1742,41 +1863,124 @@
             }
         }
 
-        // عرض خطة أسبوعية لصف محدد
-        function loadWeeklyPlan(grade) {
-            const planDisplay = document.getElementById('plan-display');
+        // عرض خطة أسبوعية لصف وشعبة محددين
+        function loadWeeklyPlan(grade, section) {
+            const weekInfo = document.getElementById('week-info');
+            const weekTitle = document.getElementById('week-title');
+            const weeklyPlanDisplay = document.getElementById('weekly-plan-display');
             const noPlansMessage = document.getElementById('no-plans-message');
-            const tableBody = document.getElementById('plan-table-body');
+            const tableBody = document.getElementById('weekly-plan-body');
             
-            const gradePlans = plansData[grade] || [];
+            const planKey = `${grade}-${section}`;
+            const gradePlan = plansData[planKey];
             
-            if (gradePlans.length === 0) {
-                // لا توجد خطط - إظهار رسالة
-                planDisplay.classList.add('hidden');
+            if (!gradePlan) {
+                // لا توجد خطة - إظهار رسالة
+                weekInfo.classList.add('hidden');
+                weeklyPlanDisplay.classList.add('hidden');
                 noPlansMessage.classList.remove('hidden');
                 return;
             }
             
-            // توجد خطط - إظهار الجدول
+            // توجد خطة - إظهار الجدول
             noPlansMessage.classList.add('hidden');
-            planDisplay.classList.remove('hidden');
             
-            // ترتيب الخطط حسب أيام الأسبوع
-            const dayOrder = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
-            gradePlans.sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
+            // عرض معلومات الأسبوع
+            const gradeDisplayName = getGradeDisplayName(grade);
+            const weekStart = gradePlan.weekStart;
+            const weekEnd = gradePlan.weekEnd;
+            
+            if (weekStart && weekEnd) {
+                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} - شعبة ${section} من ${formatDateArabic(new Date(weekStart))} إلى ${formatDateArabic(new Date(weekEnd))}`;
+                weekInfo.classList.remove('hidden');
+                
+                // تحديث عناوين الأيام بالتواريخ
+                updateDayHeaders(new Date(weekStart));
+            } else {
+                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} - شعبة ${section}`;
+                weekInfo.classList.remove('hidden');
+            }
+            
+            weeklyPlanDisplay.classList.remove('hidden');
             
             // إفراغ الجدول وإضافة البيانات الجديدة
             tableBody.innerHTML = '';
-            gradePlans.forEach(plan => {
+            
+            if (gradePlan.subjects && gradePlan.subjects.length > 0) {
+                gradePlan.subjects.forEach(subject => {
+                    const subjectData = gradePlan.weeklyData[subject.id] || {};
+                    const row = tableBody.insertRow();
+                    row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
+                    
+                    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+                    const dayContents = days.map(day => {
+                        const content = subjectData.days ? (subjectData.days[day] || '') : '';
+                        return content ? content : '-';
+                    });
+                    
+                    row.innerHTML = `
+                        <td class="subject-header">
+                            ${subject.name}
+                            <br><span class="teacher-badge">${subject.teacherName}</span>
+                        </td>
+                        ${dayContents.map(content => `
+                            <td class="plan-cell">
+                                ${content}
+                            </td>
+                        `).join('')}
+                    `;
+                });
+            } else {
+                // لا توجد مواد
                 const row = tableBody.insertRow();
-                row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors';
                 row.innerHTML = `
-                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-medium">${plan.day}</td>
-                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.subject}</td>
-                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.topic}</td>
-                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.activities}</td>
-                    <td class="border border-gray-300 dark:border-gray-600 px-4 py-2">${plan.teacherName || 'غير محدد'}</td>
+                    <td colspan="6" class="text-center py-8 text-gray-500">
+                        لا توجد مواد مضافة لهذه الخطة الأسبوعية
+                    </td>
                 `;
+            }
+        }
+
+        // تحديث عناوين الأيام مع التواريخ
+        function updateDayHeaders(startDate) {
+            const days = ['الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+            const headers = ['monday-header', 'tuesday-header', 'wednesday-header', 'thursday-header', 'friday-header'];
+            
+            headers.forEach((headerId, index) => {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + index);
+                const header = document.getElementById(headerId);
+                if (header) {
+                    header.innerHTML = `${days[index]}<br><small>${formatDateShort(date)}</small>`;
+                }
+            });
+        }
+
+        // الحصول على اسم الصف للعرض
+        function getGradeDisplayName(gradeId) {
+            const gradeNames = {
+                'grade1': 'الصف الأول', 'grade2': 'الصف الثاني', 'grade3': 'الصف الثالث', 'grade4': 'الصف الرابع',
+                'grade5': 'الصف الخامس', 'grade6': 'الصف السادس', 'grade7': 'الصف السابع', 'grade8': 'الصف الثامن',
+                'grade9': 'الصف التاسع', 'grade10': 'الصف العاشر', 'grade11': 'الصف الحادي عشر', 'grade12': 'الصف الثاني عشر'
+            };
+            return gradeNames[gradeId] || gradeId;
+        }
+
+        // تنسيق التاريخ للعربية
+        function formatDateArabic(date) {
+            return date.toLocaleDateString('ar-AE', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // تنسيق التاريخ المختصر
+        function formatDateShort(date) {
+            return date.toLocaleDateString('ar-AE', {
+                month: 'numeric',
+                day: 'numeric'
             });
         }
 
