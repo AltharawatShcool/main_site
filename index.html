@@ -459,6 +459,7 @@
             border-radius: 20px;
             padding: 2rem;
             box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
         }
         
         .schedule-table {
@@ -623,6 +624,37 @@
             margin-bottom: 1rem;
             text-align: center;
         }
+
+        /* اختيار الصف والشعبة */
+        .grade-section-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .section-dropdown {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #5D5CDE;
+            border-radius: 12px;
+            background: white;
+            color: #333;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .section-dropdown:hover {
+            background: #f8fafc;
+        }
+
+        .section-dropdown:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 10px rgba(93, 92, 222, 0.2);
+        }
         
         /* تحسينات الشاشات الصغيرة */
         @media (max-width: 768px) {
@@ -662,6 +694,20 @@
             
             .modal-title {
                 font-size: 1.5rem;
+            }
+
+            .grade-section-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-table-wrapper {
+                padding: 1rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.8rem;
             }
         }
         
@@ -1420,8 +1466,8 @@
         /*
         ===========================================
         ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن
+        مع إضافة نظام الشعب (10 شعب لكل صف)
         ===========================================
-        هذا الملف يحتوي على جميع الوظائف والتفاعلات في الموقع
         */
         
         /*
@@ -1445,6 +1491,10 @@
         // متغيرات لتخزين جداول الحصص من Firebase
         let allSchedules = [];
 
+        // قائمة الشعب (10 شعب)
+        const sections = ['1'
+        , '2', '6', '5', '4', '3', '8', '7', '9', '10'];
+
         // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -1455,6 +1505,7 @@
         let currentGrade = ''; // الصف المحدد حالياً
         let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
         let currentScheduleGradeName = ''; // اسم الصف المفتوح في المودال
+        let currentSection = ''; // الشعبة المحددة
         let statsAnimated = false; // للتأكد من تحريك الإحصائيات مرة واحدة فقط
 
         /*
@@ -1579,7 +1630,7 @@
                     </div>
                     <div class="schedule-card-body">
                         <div class="schedule-actions">
-                            <button onclick="openScheduleModal(${i}, '${gradeNames[i]}')" class="schedule-btn view-btn">
+                            <button onclick="showSectionSelector(${i}, '${gradeNames[i]}')" class="schedule-btn view-btn">
                                 <i class="fas fa-eye"></i>
                                 <span>عرض الجدول</span>
                             </button>
@@ -1593,23 +1644,81 @@
 
         /*
         ===========================================
+        وظائف الشعب الجديدة
+        ===========================================
+        */
+
+        // إظهار قائمة اختيار الشعبة
+        function showSectionSelector(grade, gradeName) {
+            // إنشاء مودال مؤقت لاختيار الشعبة
+            const selectorHTML = `
+                <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
+                        <h2 class="text-2xl font-bold text-primary mb-6 text-center">اختر الشعبة</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 text-center">الصف ${gradeName}</p>
+                        
+                        <div class="grid grid-cols-5 gap-3 mb-6">
+                            ${sections.map(section => `
+                                <button onclick="openScheduleModal(${grade}, '${gradeName}', '${section}')" 
+                                        class="py-2 px-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all font-bold">
+                                    ${section}
+                                </button>
+                            `).join('')}
+                        </div>
+                        
+                        <button onclick="closeSectionSelector()" class="w-full py-2 px-4 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-400 transition-colors">
+                            إلغاء
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // إضافة المودال للصفحة
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = selectorHTML;
+            tempDiv.id = 'section-selector-modal';
+            document.body.appendChild(tempDiv);
+
+            // إغلاق عند النقر خارج المودال
+            tempDiv.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSectionSelector();
+                }
+            });
+        }
+
+        function closeSectionSelector() {
+            const modal = document.getElementById('section-selector-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        /*
+        ===========================================
         وظائف المودال المحسنة (نافذة عرض الجداول)
         ===========================================
         */
         
-        // فتح مودال عرض جدول الحصص
-        function openScheduleModal(grade, gradeName) {
+        // فتح مودال عرض جدول الحصص مع الشعبة
+        function openScheduleModal(grade, gradeName, section) {
+            closeSectionSelector();
+
             const modal = document.getElementById('schedule-modal');
             const title = document.getElementById('modal-title');
             const content = document.getElementById('schedule-content');
             
             currentScheduleGrade = grade;
             currentScheduleGradeName = gradeName;
+            currentSection = section;
             
-            title.textContent = `جدول الحصص - الصف ${gradeName}`;
+            title.textContent = `جدول الحصص - الصف ${gradeName} - الشعبة ${section}`;
             
-            // البحث عن جدول الحصص للصف المحدد
-            const gradeSchedule = allSchedules.find(schedule => parseInt(schedule.grade) === grade);
+            // البحث عن جدول الحصص للصف والشعبة المحددة
+            const gradeSchedule = allSchedules.find(schedule => 
+                parseInt(schedule.grade) === grade && 
+                schedule.section === section
+            );
             
             if (gradeSchedule && gradeSchedule.schedule && gradeSchedule.schedule.length > 0) {
                 // عرض الجدول
@@ -1621,8 +1730,8 @@
                                     <i class="fas fa-calendar-alt text-white text-2xl"></i>
                                 </div>
                             </div>
-                            <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName}</h4>
-                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">الجدول الزمني المفصل للحصص الدراسية</p>
+                            <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName} - الشعبة ${section}</h4>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">الجدول الزمني المفصل للحصص الدراسية من الاثنين إلى الجمعة</p>
                             
                             <!-- عرض جدول الحصص -->
                             <div class="schedule-table-wrapper">
@@ -1630,11 +1739,11 @@
                                     <thead>
                                         <tr>
                                             <th>الوقت</th>
-                                            <th>الأحد</th>
                                             <th>الاثنين</th>
                                             <th>الثلاثاء</th>
                                             <th>الأربعاء</th>
                                             <th>الخميس</th>
+                                            <th>الجمعة</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1650,7 +1759,8 @@
                                     <div>
                                         <h5 class="font-bold text-blue-700 dark:text-blue-300 mb-2">معلومات هامة</h5>
                                         <ul class="text-sm text-blue-600 dark:text-blue-400 space-y-1">
-                                            <li>• يتم تحديث الجداول أسبوعياً حسب المنهج الدراسي</li>
+                                            <li>• أيام الدراسة: من الاثنين إلى الجمعة</li>
+                                            <li>• بداية الحصة الأولى: 8:00 صباحاً</li>
                                             <li>• وقت الحصة الواحدة: 45 دقيقة</li>
                                             <li>• وقت الاستراحة: 15 دقيقة بين الحصص</li>
                                             <li>• للاستفسارات اتصل على: +971 54 383 7551</li>
@@ -1668,7 +1778,7 @@
                         <div class="no-schedule-message">
                             <i class="fas fa-calendar-times"></i>
                             <h4 class="text-2xl font-bold mb-4">جدول الحصص غير متوفر حالياً</h4>
-                            <p class="text-lg mb-4">سيتم رفع جدول الحصص للصف ${gradeName} قريباً</p>
+                            <p class="text-lg mb-4">سيتم رفع جدول الحصص للصف ${gradeName} - الشعبة ${section} قريباً</p>
                             <p class="text-base opacity-90">يرجى المراجعة لاحقاً أو التواصل مع الإدارة</p>
                         </div>
                         
@@ -1698,35 +1808,35 @@
             }, 10);
         }
 
-        // إنشاء جدول الحصص HTML
+        // إنشاء جدول الحصص HTML مع أوقات محدثة (تبدأ من 8:00)
         function generateScheduleTable(scheduleData) {
             let tableRows = '';
             
-            // مواعيد الحصص الافتراضية
+            // مواعيد الحصص المحدثة (تبدأ من 8:00 صباحاً)
             const timeSlots = [
-                '7:30 - 8:15',
-                '8:15 - 9:00',
-                '9:00 - 9:45',
-                '9:45 - 10:00', // استراحة
-                '10:00 - 10:45',
-                '10:45 - 11:30',
-                '11:30 - 12:15',
-                '12:15 - 1:00',
-                '1:00 - 1:45'
+                '8:00 - 8:45',
+                '8:45 - 9:30',
+                '9:30 - 10:15',
+                '10:15 - 10:30', // استراحة
+                '10:30 - 11:15',
+                '11:15 - 12:00',
+                '12:00 - 12:45',
+                '12:45 - 1:30'
             ];
 
             timeSlots.forEach((timeSlot, index) => {
-                if (timeSlot === '9:45 - 10:00') {
+                if (timeSlot === '10:15 - 10:30') {
                     // صف الاستراحة
                     tableRows += `
                         <tr>
                             <td class="time-cell">${timeSlot}</td>
-                            <td colspan="5" class="text-center bg-yellow-100 font-bold text-yellow-800">استراحة</td>
+                            <td colspan="5" class="text-center bg-yellow-100 dark:bg-yellow-900 font-bold text-yellow-800 dark:text-yellow-200">استراحة</td>
                         </tr>
                     `;
                 } else {
-                    // البحث عن الحصص في هذا الوقت
-                    const daySchedules = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'].map(day => {
+                    // الأيام: من الاثنين إلى الجمعة فقط
+                    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+                    const daySchedules = days.map(day => {
                         const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
                         return dayData ? dayData.subject : '-';
                     });
@@ -1757,12 +1867,13 @@
                 // إعادة تعيين المتغيرات
                 currentScheduleGrade = null;
                 currentScheduleGradeName = '';
+                currentSection = '';
             }, 200);
         }
 
         /*
         ===========================================
-        وظائف الخطط الأسبوعية المحدثة - بدون شعب
+        وظائف الخطط الأسبوعية المحدثة
         ===========================================
         */
         
@@ -1802,17 +1913,14 @@
             document.getElementById('no-plans-message').classList.add('hidden');
         }
 
-        // تحميل الخطط الأسبوعية من Firebase مع إخفاء المؤرشفة
+        // تحميل الخطط الأسبوعية من Firebase
         async function loadWeeklyPlans() {
             try {
-                // الاستماع للتحديثات المباشرة من Firebase
                 db.collection('weeklyPlans').onSnapshot((snapshot) => {
                     plansData = {};
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        // إخفاء الخطط المؤرشفة من العرض العام
                         if (!data.archived) {
-                            // استخدام الصف فقط كمفتاح
                             const key = data.grade;
                             plansData[key] = {
                                 id: doc.id,
@@ -1821,7 +1929,6 @@
                         }
                     });
                     
-                    // تحديث العرض الحالي إذا كان هناك صف محدد
                     if (currentGrade) {
                         loadWeeklyPlan(currentGrade);
                     }
@@ -1832,7 +1939,7 @@
             }
         }
 
-        // عرض خطة أسبوعية لصف محدد (بدون شعبة)
+        // عرض خطة أسبوعية لصف محدد
         function loadWeeklyPlan(grade) {
             const weekInfo = document.getElementById('week-info');
             const weekTitle = document.getElementById('week-title');
@@ -1843,17 +1950,14 @@
             const gradePlan = plansData[grade];
             
             if (!gradePlan) {
-                // لا توجد خطة - إظهار رسالة
                 weekInfo.classList.add('hidden');
                 weeklyPlanDisplay.classList.add('hidden');
                 noPlansMessage.classList.remove('hidden');
                 return;
             }
             
-            // توجد خطة - إظهار الجدول
             noPlansMessage.classList.add('hidden');
             
-            // عرض معلومات الأسبوع
             const gradeDisplayName = getGradeDisplayName(grade);
             const weekStart = gradePlan.weekStart;
             const weekEnd = gradePlan.weekEnd;
@@ -1861,8 +1965,6 @@
             if (weekStart && weekEnd) {
                 weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} من ${formatDateArabic(new Date(weekStart))} إلى ${formatDateArabic(new Date(weekEnd))}`;
                 weekInfo.classList.remove('hidden');
-                
-                // تحديث عناوين الأيام بالتواريخ
                 updateDayHeaders(new Date(weekStart));
             } else {
                 weekTitle.textContent = `خطة أسبوع ${gradeDisplayName}`;
@@ -1870,8 +1972,6 @@
             }
             
             weeklyPlanDisplay.classList.remove('hidden');
-            
-            // إفراغ الجدول وإضافة البيانات الجديدة
             tableBody.innerHTML = '';
             
             if (gradePlan.subjects && gradePlan.subjects.length > 0) {
@@ -1899,7 +1999,6 @@
                     `;
                 });
             } else {
-                // لا توجد مواد
                 const row = tableBody.insertRow();
                 row.innerHTML = `
                     <td colspan="6" class="text-center py-8 text-gray-500">
@@ -1909,9 +2008,9 @@
             }
         }
 
-        // تحديث عناوين الأيام مع التواريخ
+        // تحديث عناوين الأيام
         function updateDayHeaders(startDate) {
-            const days = ['الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+            const days = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
             const headers = ['monday-header', 'tuesday-header', 'wednesday-header', 'thursday-header', 'friday-header'];
             
             headers.forEach((headerId, index) => {
@@ -1924,7 +2023,6 @@
             });
         }
 
-        // الحصول على اسم الصف للعرض
         function getGradeDisplayName(gradeId) {
             const gradeNames = {
                 'grade1': 'الصف الأول', 'grade2': 'الصف الثاني', 'grade3': 'الصف الثالث', 'grade4': 'الصف الرابع',
@@ -1934,7 +2032,6 @@
             return gradeNames[gradeId] || gradeId;
         }
 
-        // تنسيق التاريخ للعربية
         function formatDateArabic(date) {
             return date.toLocaleDateString('ar-AE', {
                 weekday: 'long',
@@ -1944,7 +2041,6 @@
             });
         }
 
-        // تنسيق التاريخ المختصر
         function formatDateShort(date) {
             return date.toLocaleDateString('ar-AE', {
                 month: 'numeric',
@@ -1954,19 +2050,16 @@
 
         /*
         ===========================================
-        وظائف الأنشطة المدرسية مع إخفاء المؤرشفة
+        وظائف الأنشطة المدرسية
         ===========================================
         */
         
-        // تحميل الأنشطة من Firebase مع إخفاء المؤرشفة
         async function loadActivities() {
             try {
-                // الاستماع للتحديثات المباشرة من Firebase
                 db.collection('activities').onSnapshot((snapshot) => {
                     activitiesData = [];
                     snapshot.forEach((doc) => {
                         const data = doc.data();
-                        // إخفاء الأنشطة المؤرشفة من العرض العام
                         if (!data.archived) {
                             activitiesData.push({
                                 id: doc.id,
@@ -1974,35 +2067,28 @@
                             });
                         }
                     });
-                    
                     displayActivities();
                 });
             } catch (error) {
                 console.error('Error loading activities:', error);
-                // في حال فشل التحميل، عرض رسالة "سيتم عرض الأنشطة في وقت لاحق"
                 displayNoActivitiesMessage();
             }
         }
 
-        // عرض الأنشطة
         function displayActivities() {
             const activitiesGrid = document.getElementById('activities-grid');
             const noActivitiesMessage = document.getElementById('no-activities-message');
             
             if (activitiesData.length === 0) {
-                // لا توجد أنشطة - إظهار رسالة
                 displayNoActivitiesMessage();
                 return;
             }
             
-            // توجد أنشطة - إظهار الشبكة
             noActivitiesMessage.classList.add('hidden');
             activitiesGrid.classList.remove('hidden');
             
-            // ترتيب الأنشطة حسب التاريخ (الأحدث أولاً)
             activitiesData.sort((a, b) => new Date(b.date) - new Date(a.date));
             
-            // إفراغ الشبكة وإضافة البطاقات الجديدة
             activitiesGrid.innerHTML = '';
             activitiesData.forEach(activity => {
                 const activityCard = createActivityCard(activity);
@@ -2010,7 +2096,6 @@
             });
         }
 
-        // عرض رسالة عدم وجود أنشطة
         function displayNoActivitiesMessage() {
             const activitiesGrid = document.getElementById('activities-grid');
             const noActivitiesMessage = document.getElementById('no-activities-message');
@@ -2019,7 +2104,6 @@
             noActivitiesMessage.classList.remove('hidden');
         }
 
-        // إنشاء بطاقة نشاط
         function createActivityCard(activity) {
             const card = document.createElement('div');
             card.className = 'activity-card p-6';
@@ -2075,7 +2159,6 @@
             return card;
         }
 
-        // تحديد حالة النشاط بناءً على التاريخ
         function getActivityStatus(activityDate) {
             const today = new Date();
             const activity = new Date(activityDate);
@@ -2088,7 +2171,6 @@
             return 'upcoming';
         }
 
-        // الحصول على فئة CSS لحالة النشاط
         function getActivityStatusClass(status) {
             switch (status) {
                 case 'completed': return 'status-completed';
@@ -2098,7 +2180,6 @@
             }
         }
 
-        // الحصول على نص حالة النشاط
         function getActivityStatusText(status) {
             switch (status) {
                 case 'completed': return 'مكتمل';
@@ -2108,7 +2189,6 @@
             }
         }
 
-        // الحصول على نص الفئة المستهدفة
         function getTargetText(target) {
             switch (target) {
                 case 'all': return 'جميع الصفوف';
@@ -2120,7 +2200,6 @@
             }
         }
 
-        // تنسيق التاريخ
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('ar-AE', {
@@ -2136,11 +2215,10 @@
         ===========================================
         */
         function setupAnimations() {
-            // تحريك العدادات (الإحصائيات) - تم تحسينها
             const animateCounter = (counter) => {
                 const target = parseInt(counter.getAttribute('data-target'));
-                const duration = 2000; // 2 ثانية
-                const stepTime = 50; // تحديث كل 50 ميللي ثانية
+                const duration = 2000;
+                const stepTime = 50;
                 const steps = duration / stepTime;
                 const increment = target / steps;
                 let current = 0;
@@ -2157,35 +2235,30 @@
                 }, stepTime);
             };
 
-            // مراقب تقاطع العناصر (Intersection Observer) للحركات
             const observerOptions = {
-                threshold: 0.3, // تفعيل عند ظهور 30% من العنصر
+                threshold: 0.3,
                 rootMargin: '0px 0px -50px 0px'
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // تفعيل حركة الظهور
                         if (entry.target.classList.contains('slide-up') || 
                             entry.target.classList.contains('fade-in')) {
                             entry.target.style.opacity = '1';
                             entry.target.style.transform = 'translateY(0)';
                         }
                         
-                        // تفعيل حركة العدادات (تشغيل مرة واحدة فقط)
                         if (entry.target.classList.contains('stats-container') && !statsAnimated) {
                             statsAnimated = true;
                             const counters = entry.target.querySelectorAll('.counter');
                             counters.forEach((counter, index) => {
-                                // تأخير بسيط بين العدادات للحصول على تأثير متدرج
                                 setTimeout(() => {
                                     animateCounter(counter);
                                 }, index * 200);
                             });
                         }
                         
-                        // تفعيل حركة عناصر المميزات
                         if (entry.target.classList.contains('feature-item')) {
                             entry.target.style.opacity = '1';
                             entry.target.style.transform = 'translateX(0)';
@@ -2194,7 +2267,6 @@
                 });
             }, observerOptions);
 
-            // مراقبة العناصر وإعداد الحركات الأولية
             document.querySelectorAll('.slide-up, .fade-in, .stats-container, .feature-item').forEach(el => {
                 el.style.opacity = '0';
                 if (el.classList.contains('slide-up')) {
@@ -2214,13 +2286,11 @@
         ===========================================
         */
         
-        // فتح الاتجاهات في خرائط جوجل
         function openDirections() {
             const address = encodeURIComponent('مدرسة الثروات الوطنية الخاصة، أبوظبي، الإمارات العربية المتحدة');
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');
         }
 
-        // فتح الخريطة في خرائط جوجل
         function openMap() {
             const address = encodeURIComponent('مدرسة الثروات الوطنية الخاصة، أبوظبي، الإمارات العربية المتحدة');
             window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
@@ -2228,11 +2298,10 @@
 
         /*
         ===========================================
-        وظائف مساعدة (Utility Functions)
+        وظائف مساعدة
         ===========================================
         */
         
-        // إظهار رسالة خطأ
         function showErrorMessage(message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
@@ -2244,13 +2313,11 @@
             `;
             document.body.appendChild(alertDiv);
             
-            // إزالة الرسالة بعد 5 ثوان
             setTimeout(() => {
                 alertDiv.remove();
             }, 5000);
         }
 
-        // إظهار رسالة نجاح
         function showSuccessMessage(message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
@@ -2262,19 +2329,11 @@
             `;
             document.body.appendChild(alertDiv);
             
-            // إزالة الرسالة بعد 3 ثوان
             setTimeout(() => {
                 alertDiv.remove();
             }, 3000);
         }
 
-        /*
-        ===========================================
-        تحسينات إضافية للتفاعل
-        ===========================================
-        */
-        
-        // إضافة تأثيرات التمرير للعناصر التفاعلية
         const style = document.createElement('style');
         style.textContent = `
             .contact-item:hover i {
@@ -2294,10 +2353,8 @@
         `;
         document.head.appendChild(style);
 
-        // إغلاق المودال عند الضغط على Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                // إغلاق المودال عند الضغط على Escape
                 if (!document.getElementById('schedule-modal').classList.contains('hidden')) {
                     closeScheduleModal();
                 }
