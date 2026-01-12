@@ -395,6 +395,7 @@
             overflow-y: auto;
         }
         
+        
         .modal-header {
             background: linear-gradient(135deg, #5D5CDE, #7C3AED);
             color: white;
@@ -969,6 +970,25 @@
             margin-bottom: 1rem;
             opacity: 0.9;
         }
+/* تحسين تصميم صفوف الاستراحات */
+.break-row {
+    background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 50%, #fff3cd 100%);
+    font-weight: bold;
+    color: #856404;
+    text-align: center;
+}
+
+.break-row:hover {
+    background: linear-gradient(90deg, #ffe8a8 0%, #ffd89e 50%, #ffe8a8 100%);
+    transition: all 0.3s ease;
+}
+
+.break-row td {
+    border: 2px solid #ffc107;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
     </style>
     <script>
         /* إعداد تخصيص ألوان Tailwind CSS */
@@ -1809,53 +1829,58 @@
         }
 
         // إنشاء جدول الحصص HTML مع أوقات محدثة (تبدأ من 8:00)
-        function generateScheduleTable(scheduleData) {
-            let tableRows = '';
-            
-            // مواعيد الحصص المحدثة (تبدأ من 8:00 صباحاً)
-            const timeSlots = [
-                '8:00 - 8:45',
-                '8:45 - 9:30',
-                '9:30 - 10:15',
-                '10:15 - 10:30', // استراحة
-                '10:30 - 11:15',
-                '11:15 - 12:00',
-                '12:00 - 12:45',
-                '12:45 - 1:30'
-            ];
+// إنشاء جدول الحصص HTML مع أوقات محدثة (تبدأ من 8:00)
+function generateScheduleTable(scheduleData) {
+    let tableRows = '';
+    
+    // مواعيد الحصص المحدثة - 8 حصص مع الاستراحات
+    const timeSlots = [
+        { time: '8:00 - 8:45', isBreak: false, breakType: null },      // الحصة 1
+        { time: '8:45 - 9:30', isBreak: false, breakType: null },      // الحصة 2
+        { time: '9:30 - 9:45', isBreak: true, breakType: 'استراحة' },  // استراحة 15 دقيقة
+        { time: '9:45 - 10:30', isBreak: false, breakType: null },     // الحصة 3
+        { time: '10:30 - 11:15', isBreak: false, breakType: null },    // الحصة 4
+        { time: '11:15 - 12:00', isBreak: false, breakType: null },    // الحصة 5
+        { time: '12:00 - 12:15', isBreak: true, breakType: 'فسحة' },   // فسحة 15 دقيقة
+        { time: '12:15 - 1:00', isBreak: false, breakType: null },     // الحصة 6
+        { time: '1:00 - 1:45', isBreak: false, breakType: null },      // الحصة 7
+        { time: '1:45 - 2:30', isBreak: false, breakType: null }       // الحصة 8
+    ];
 
-            timeSlots.forEach((timeSlot, index) => {
-                if (timeSlot === '10:15 - 10:30') {
-                    // صف الاستراحة
-                    tableRows += `
-                        <tr>
-                            <td class="time-cell">${timeSlot}</td>
-                            <td colspan="5" class="text-center bg-yellow-100 dark:bg-yellow-900 font-bold text-yellow-800 dark:text-yellow-200">استراحة</td>
-                        </tr>
-                    `;
-                } else {
-                    // الأيام: من الاثنين إلى الجمعة فقط
-                    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-                    const daySchedules = days.map(day => {
-                        const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
-                        return dayData ? dayData.subject : '-';
-                    });
-
-                    tableRows += `
-                        <tr>
-                            <td class="time-cell">${timeSlot}</td>
-                            <td class="subject-cell">${daySchedules[0]}</td>
-                            <td class="subject-cell">${daySchedules[1]}</td>
-                            <td class="subject-cell">${daySchedules[2]}</td>
-                            <td class="subject-cell">${daySchedules[3]}</td>
-                            <td class="subject-cell">${daySchedules[4]}</td>
-                        </tr>
-                    `;
-                }
+    timeSlots.forEach((slot, index) => {
+        if (slot.isBreak) {
+            // صف الاستراحة أو الفسحة
+            const breakColor = slot.breakType === 'استراحة' ? 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
+            tableRows += `
+                <tr>
+                    <td class="time-cell font-bold">${slot.time}</td>
+                    <td colspan="5" class="text-center ${breakColor} font-bold text-lg">${slot.breakType}</td>
+                </tr>
+            `;
+        } else {
+            // الأيام: من الاثنين إلى الجمعة فقط
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+            const daySchedules = days.map(day => {
+                const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
+                return dayData ? dayData.subject : '-';
             });
 
-            return tableRows;
+            tableRows += `
+                <tr>
+                    <td class="time-cell font-bold">${slot.time}</td>
+                    <td class="subject-cell">${daySchedules[0]}</td>
+                    <td class="subject-cell">${daySchedules[1]}</td>
+                    <td class="subject-cell">${daySchedules[2]}</td>
+                    <td class="subject-cell">${daySchedules[3]}</td>
+                    <td class="subject-cell">${daySchedules[4]}</td>
+                </tr>
+            `;
         }
+    });
+
+    return tableRows;
+}
+
 
         // إغلاق مودال جدول الحصص
         function closeScheduleModal() {
