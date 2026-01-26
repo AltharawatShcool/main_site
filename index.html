@@ -26,15 +26,12 @@
     <script src="https://cdn.jsdelivr.net/npm/firebase@9.15.0/firebase-app-compat.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/firebase@9.15.0/firebase-firestore-compat.min.js"></script>
     <style>
-        /* استيراد خط تاجوال العربي من جوجل فونتس */
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
         
-        /* تطبيق الخط على جميع العناصر */
         * {
             font-family: 'Tajawal', sans-serif;
         }
         
-        /* تأثيرات الحركة والانيميشن */
         .fade-in {
             animation: fadeIn 1s ease-in;
         }
@@ -51,19 +48,16 @@
             animation: pulse 2s infinite;
         }
         
-        /* تعريف حركة الظهور التدريجي */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
         
-        /* تعريف حركة الانزلاق من الأسفل */
         @keyframes slideUp {
             from { transform: translateY(50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
         
-        /* تعريف حركة الارتداد عند الظهور */
         @keyframes bounceIn {
             0%, 20%, 40%, 60%, 80% {
                 transform: translateY(0);
@@ -77,13 +71,11 @@
             to { opacity: 1; transform: scale3d(1, 1, 1); }
         }
         
-        /* تعريف حركة النبض */
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
         
-        /* تحريك العدادات */
         @keyframes countUp {
             from { transform: translateY(10px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -93,26 +85,17 @@
             animation: countUp 0.6s ease-out;
         }
         
-        /* 
-        ===========================================
-        تخصيص صورة خلفية الهيرو (الصفحة الرئيسية)
-        ===========================================
-        لتغيير صورة خلفية الهيرو، استبدل الرابط أدناه بصورة جديدة
-        يُفضل أن تكون الصورة بدقة 1920x1080 أو أعلى
-        */
         .hero-bg {
             background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
                         url('https://www2.0zz0.com/2025/07/26/10/237361813.jpeg') center/cover;
             background-attachment: fixed;
         }
         
-        /* تأثير الزجاج المضبب */
         .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
         }
         
-        /* تأثير التكبير عند التمرير */
         .hover-scale {
             transition: transform 0.3s ease;
         }
@@ -121,7 +104,6 @@
             transform: scale(1.05);
         }
         
-        /* دائرة التحميل المتحركة */
         .loading-spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #5D5CDE;
@@ -131,13 +113,11 @@
             animation: spin 1s linear infinite;
         }
         
-        /* تعريف حركة الدوران */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         
-        /* شريط الإشعارات */
         .notification-banner {
             background: linear-gradient(90deg, #F59E0B, #EAB308);
             color: white;
@@ -146,11 +126,6 @@
             font-weight: 500;
         }
         
-        /* 
-        ===========================================
-        تصميم جداول الحصص الاحترافي المحدث
-        ===========================================
-        */
         .schedule-cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -376,11 +351,6 @@
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
         }
         
-        /* 
-        ===========================================
-        تحسين المودال (النافذة المنبثقة)
-        ===========================================
-        */
         .schedule-modal {
             backdrop-filter: blur(10px);
             background: rgba(0, 0, 0, 0.6);
@@ -394,7 +364,6 @@
             max-height: 95vh;
             overflow-y: auto;
         }
-        
         
         .modal-header {
             background: linear-gradient(135deg, #5D5CDE, #7C3AED);
@@ -557,7 +526,6 @@
             background: linear-gradient(to bottom, #0ea5e9, #0284c7);
         }
 
-        /* تصميم الخطط الأسبوعية المحدث */
         .weekly-plan-table {
             width: 100%;
             border-collapse: collapse;
@@ -600,6 +568,17 @@
             display: inline-block;
         }
 
+        .teacher-info {
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            color: #1e40af;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;
+        }
+
         .plan-cell {
             background: #f0fdf4;
             border-left: 3px solid #10b981;
@@ -626,12 +605,11 @@
             text-align: center;
         }
 
-        /* اختيار الصف والشعبة */
         .grade-section-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
@@ -656,166 +634,13 @@
             border-color: #7C3AED;
             box-shadow: 0 0 10px rgba(93, 92, 222, 0.2);
         }
-        
-        /* تحسينات الشاشات الصغيرة */
-        @media (max-width: 768px) {
-            .schedule-cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.5rem;
-            }
-            
-            .grade-number {
-                font-size: 3rem;
-            }
-            
-            .grade-title {
-                font-size: 1.25rem;
-            }
-            
-            .schedule-card-header {
-                padding: 2rem 1.5rem;
-            }
-            
-            .schedule-card-body {
-                padding: 2rem 1.5rem;
-            }
-            
-            .schedule-btn {
-                padding: 1rem 1.25rem;
-                font-size: 0.95rem;
-            }
-            
-            .schedule-card:hover {
-                transform: translateY(-10px);
-            }
-            
-            .modal-body {
-                padding: 2rem 1.5rem;
-            }
-            
-            .modal-title {
-                font-size: 1.5rem;
-            }
 
-            .grade-section-selector {
-                grid-template-columns: 1fr;
-            }
-
-            .schedule-table-wrapper {
-                padding: 1rem;
-            }
-
-            .schedule-table th,
-            .schedule-table td {
-                padding: 0.5rem 0.3rem;
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .schedule-cards-grid {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-            }
-            
-            .grade-number {
-                font-size: 2.5rem;
-            }
-            
-            .schedule-card-header {
-                padding: 1.5rem 1rem;
-            }
-            
-            .schedule-card-body {
-                padding: 1.5rem 1rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .modal-btn {
-                min-width: auto;
-            }
-            
-            .schedule-table {
-                font-size: 0.8rem;
-            }
-            
-            .schedule-table th,
-            .schedule-table td {
-                padding: 0.5rem;
-            }
-
-            .weekly-plan-table {
-                font-size: 0.8rem;
-            }
-
-            .weekly-plan-table th,
-            .weekly-plan-table td {
-                padding: 0.5rem;
-            }
-        }
-        
-        /* حاوي الخريطة */
-        .map-container {
-            background: linear-gradient(135deg, #10B981, #059669);
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            border-radius: 12px;
-        }
-        
-        /* تأثير الإضاءة حول الشعار */
-        .logo-glow {
-            box-shadow: 0 0 20px rgba(93, 92, 222, 0.3);
-        }
-        
-        /* حركة الطفو */
-        .floating-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* تعريف حركة الطفو */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        /* تصميم شعار المدرسة */
-        .school-logo {
-            background: white;
-            border-radius: 50%;
-            padding: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* تحسينات الإحصائيات */
-        .stats-container {
-            position: relative;
-        }
-        
-        .stats-item {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .stats-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.2) !important;
-        }
-        
-        .counter {
-            transition: all 0.3s ease;
+        .section-dropdown:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f0f0f0;
         }
 
-        /* 
-        ===========================================
-        تصميم قسم الأنشطة المحدث مع إخفاء المؤرشفة
-        ===========================================
-        */
         .activity-card {
             background: white;
             border-radius: 20px;
@@ -937,12 +762,6 @@
             width: 16px;
         }
 
-        /* تحسينات للعناصر المؤرشفة - في حالة ظهورها بالخطأ */
-        .archived-item {
-            opacity: 0.5;
-            display: none !important;
-        }
-
         .no-schedule-message {
             background: linear-gradient(135deg, #F59E0B, #EAB308);
             color: white;
@@ -970,40 +789,314 @@
             margin-bottom: 1rem;
             opacity: 0.9;
         }
-/* تحسين تصميم صفوف الاستراحات */
-.break-row {
-    background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 50%, #fff3cd 100%);
-    font-weight: bold;
-    color: #856404;
-    text-align: center;
-}
 
-.break-row:hover {
-    background: linear-gradient(90deg, #ffe8a8 0%, #ffd89e 50%, #ffe8a8 100%);
-    transition: all 0.3s ease;
-}
+        .break-row {
+            background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 50%, #fff3cd 100%);
+            font-weight: bold;
+            color: #856404;
+            text-align: center;
+        }
 
-.break-row td {
-    border: 2px solid #ffc107;
-    padding: 1rem;
-    font-size: 1.1rem;
-}
+        .break-row:hover {
+            background: linear-gradient(90deg, #ffe8a8 0%, #ffd89e 50%, #ffe8a8 100%);
+            transition: all 0.3s ease;
+        }
 
+        .break-row td {
+            border: 2px solid #ffc107;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* التقويم الأكاديمي المحسن */
+        .calendar-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .calendar-semester-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+        }
+
+        .calendar-semester-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(93, 92, 222, 0.25);
+            border-color: #5D5CDE;
+        }
+
+        .semester-header {
+            background: linear-gradient(135deg, #5D5CDE, #7C3AED);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .semester-icon {
+            font-size: 2rem;
+            opacity: 0.9;
+        }
+
+        .semester-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .semester-content {
+            padding: 2rem;
+        }
+
+        .semester-date-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .date-item {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 4px solid #0ea5e9;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .date-label {
+            color: #0284c7;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .date-value {
+            color: #1e40af;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .semester-notes {
+            background: linear-gradient(135deg, #fef3c7, #fef08a);
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .semester-notes h5 {
+            color: #d97706;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .semester-notes p {
+            color: #92400e;
+            line-height: 1.6;
+        }
+
+        .no-calendar-message {
+            background: linear-gradient(135deg, #E0E7FF, #F3E8FF);
+            border: 2px dashed #5D5CDE;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #5D5CDE;
+        }
+
+        .no-calendar-message i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .no-calendar-message h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .schedule-cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .grade-number {
+                font-size: 3rem;
+            }
+            
+            .grade-title {
+                font-size: 1.25rem;
+            }
+            
+            .schedule-card-header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .schedule-card-body {
+                padding: 2rem 1.5rem;
+            }
+            
+            .schedule-btn {
+                padding: 1rem 1.25rem;
+                font-size: 0.95rem;
+            }
+            
+            .schedule-card:hover {
+                transform: translateY(-10px);
+            }
+            
+            .modal-body {
+                padding: 2rem 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .grade-section-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-table-wrapper {
+                padding: 1rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.8rem;
+            }
+
+            .weekly-plan-table {
+                font-size: 0.8rem;
+            }
+
+            .weekly-plan-table th,
+            .weekly-plan-table td {
+                padding: 0.5rem;
+            }
+
+            .semester-date-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .schedule-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+            
+            .grade-number {
+                font-size: 2.5rem;
+            }
+            
+            .schedule-card-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .schedule-card-body {
+                padding: 1.5rem 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                min-width: auto;
+            }
+            
+            .schedule-table {
+                font-size: 0.8rem;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem;
+            }
+
+            .semester-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .map-container {
+            background: linear-gradient(135deg, #10B981, #059669);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .logo-glow {
+            box-shadow: 0 0 20px rgba(93, 92, 222, 0.3);
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .school-logo {
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-container {
+            position: relative;
+        }
+        
+        .stats-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stats-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2) !important;
+        }
+        
+        .counter {
+            transition: all 0.3s ease;
+        }
     </style>
     <script>
-        /* إعداد تخصيص ألوان Tailwind CSS */
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#5D5CDE',  /* اللون الأساسي للموقع */
-                        secondary: '#667eea' /* اللون الثانوي */
+                        primary: '#5D5CDE',
+                        secondary: '#667eea'
                     }
                 }
             }
         }
         
-        /* دعم الوضع المظلم - يتم اكتشافه تلقائياً من إعدادات النظام */
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.documentElement.classList.add('dark');
         }
@@ -1039,6 +1132,7 @@
                     <li><a href="#about" class="nav-link hover:text-primary transition-colors">نبذة عنا</a></li>
                     <li><a href="#plans" class="nav-link hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
                     <li><a href="#activities" class="nav-link hover:text-primary transition-colors">الأنشطة</a></li>
+                    <li><a href="#calendar" class="nav-link hover:text-primary transition-colors">التقويم الأكاديمي</a></li>
                     <li><a href="#schedule" class="nav-link hover:text-primary transition-colors">جدول الحصص</a></li>
                     <li><a href="#location" class="nav-link hover:text-primary transition-colors">الموقع</a></li>
                     <li><a href="#contact" class="nav-link hover:text-primary transition-colors">اتصل بنا</a></li>
@@ -1057,6 +1151,7 @@
                     <li><a href="#about" class="nav-link block py-2 hover:text-primary transition-colors">نبذة عنا</a></li>
                     <li><a href="#plans" class="nav-link block py-2 hover:text-primary transition-colors">الخطط الأسبوعية</a></li>
                     <li><a href="#activities" class="nav-link block py-2 hover:text-primary transition-colors">الأنشطة</a></li>
+                    <li><a href="#calendar" class="nav-link block py-2 hover:text-primary transition-colors">التقويم الأكاديمي</a></li>
                     <li><a href="#schedule" class="nav-link block py-2 hover:text-primary transition-colors">جدول الحصص</a></li>
                     <li><a href="#location" class="nav-link block py-2 hover:text-primary transition-colors">الموقع</a></li>
                     <li><a href="#contact" class="nav-link block py-2 hover:text-primary transition-colors">اتصل بنا</a></li>
@@ -1146,25 +1241,25 @@
                     <div class="bg-gradient-to-br from-primary to-purple-600 rounded-xl p-8 text-white shadow-2xl">
                         <h5 class="text-2xl font-bold mb-8 text-center">إحصائيات المدرسة</h5>
                         <div class="grid grid-cols-2 gap-6">
-                            <!-- عدد الصفوف - يبدأ من 0 ويعد إلى 12 -->
+                            <!-- عدد الصفوف -->
                             <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
                                 <div class="text-4xl font-bold mb-2 counter" data-target="12">12</div>
                                 <div class="text-sm opacity-90">صف دراسي</div>
                                 <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
                             </div>
-                            <!-- عدد الطلاب - يبدأ من 0 ويعد إلى 1670 -->
+                            <!-- عدد الطلاب -->
                             <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
                                 <div class="text-4xl font-bold mb-2 counter" data-target="1670">1670</div>
                                 <div class="text-sm opacity-90">طالب وطالبة</div>
                                 <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
                             </div>
-                            <!-- عدد المعلمين - يبدأ من 0 ويعد إلى 160 -->
+                            <!-- عدد المعلمين -->
                             <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
                                 <div class="text-4xl font-bold mb-2 counter" data-target="160">160</div>
                                 <div class="text-sm opacity-90">معلم ومعلمة</div>
                                 <div class="w-8 h-1 bg-white/50 mx-auto mt-2 rounded"></div>
                             </div>
-                            <!-- سنوات الخبرة - يبدأ من 0 ويعد إلى 10 -->
+                            <!-- سنوات الخبرة -->
                             <div class="text-center stats-item bg-white/10 rounded-lg p-4 backdrop-blur-sm">
                                 <div class="text-4xl font-bold mb-2 counter" data-target="10">10</div>
                                 <div class="text-sm opacity-90">سنة خبرة</div>
@@ -1194,24 +1289,38 @@
                 
                 <!-- محتوى الخطط -->
                 <div id="plans-content" class="hidden">
-                    <!-- قائمة اختيار الصف فقط -->
-                    <div class="max-w-md mx-auto mb-6">
-                        <label for="grade-select" class="block text-sm font-medium mb-2 text-center">اختر الصف:</label>
-                        <select id="grade-select" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-gray-700 text-base">
-                            <option value="">اختر الصف</option>
-                            <option value="grade1">الصف الأول</option>
-                            <option value="grade2">الصف الثاني</option>
-                            <option value="grade3">الصف الثالث</option>
-                            <option value="grade4">الصف الرابع</option>
-                            <option value="grade5">الصف الخامس</option>
-                            <option value="grade6">الصف السادس</option>
-                            <option value="grade7">الصف السابع</option>
-                            <option value="grade8">الصف الثامن</option>
-                            <option value="grade9">الصف التاسع</option>
-                            <option value="grade10">الصف العاشر</option>
-                            <option value="grade11">الصف الحادي عشر</option>
-                            <option value="grade12">الصف الثاني عشر</option>
-                        </select>
+                    <!-- معلومات المعلم والشعبة -->
+                    <div id="teacher-info-banner" class="hidden teacher-info">
+                        <i class="fas fa-chalkboard-user ml-2"></i>
+                        <span id="teacher-info-text">المعلم: - | الشعبة: -</span>
+                    </div>
+
+                    <!-- اختيار الصف والشعبة -->
+                    <div class="grade-section-selector">
+                        <div>
+                            <label for="grade-select" class="block text-sm font-medium mb-2 text-center">اختر الصف:</label>
+                            <select id="grade-select" class="section-dropdown">
+                                <option value="">اختر الصف</option>
+                                <option value="grade1">الصف الأول</option>
+                                <option value="grade2">الصف الثاني</option>
+                                <option value="grade3">الصف الثالث</option>
+                                <option value="grade4">الصف الرابع</option>
+                                <option value="grade5">الصف الخامس</option>
+                                <option value="grade6">الصف السادس</option>
+                                <option value="grade7">الصف السابع</option>
+                                <option value="grade8">الصف الثامن</option>
+                                <option value="grade9">الصف التاسع</option>
+                                <option value="grade10">الصف العاشر</option>
+                                <option value="grade11">الصف الحادي عشر</option>
+                                <option value="grade12">الصف الثاني عشر</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="section-select" class="block text-sm font-medium mb-2 text-center">اختر الشعبة:</label>
+                            <select id="section-select" class="section-dropdown" disabled>
+                                <option value="">اختر الشعبة</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <!-- عرض معلومات الأسبوع -->
@@ -1292,8 +1401,45 @@
         </div>
     </section>
 
+    <!-- Calendar Section - قسم التقويم الأكاديمي المحسن -->
+    <section id="calendar" class="py-20 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-6 text-primary">التقويم الأكاديمي</h3>
+                <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+                <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                    التقويم الأكاديمي الشامل لمدرسة الثروات الوطنية يتضمن جميع التواريخ والمناسبات المهمة
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <!-- حالة التحميل -->
+                <div id="calendar-loading" class="text-center py-8">
+                    <div class="loading-spinner mx-auto mb-4"></div>
+                    <p>جاري تحميل التقويم الأكاديمي...</p>
+                </div>
+                
+                <!-- محتوى التقويم -->
+                <div id="calendar-content" class="hidden">
+                    <div class="calendar-gallery" id="calendar-gallery">
+                        <!-- التقاويم ستظهر هنا من Firebase -->
+                    </div>
+                    
+                    <!-- رسالة عدم وجود تقويم -->
+                    <div id="no-calendar-message" class="hidden">
+                        <div class="no-calendar-message">
+                            <i class="fas fa-calendar"></i>
+                            <h4>التقويم الأكاديمي قيد التحضير</h4>
+                            <p>سيتم إضافة التقويم الأكاديمي قريباً</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Schedule Section - قسم جداول الحصص المحسن -->
-    <section id="schedule" class="py-20">
+    <section id="schedule" class="py-20 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h3 class="text-4xl font-bold mb-6 text-primary">جدول الحصص</h3>
@@ -1311,7 +1457,7 @@
     </section>
 
     <!-- Location Section - قسم موقع المدرسة -->
-    <section id="location" class="py-20 bg-gray-50 dark:bg-gray-800">
+    <section id="location" class="py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
                 <h3 class="text-4xl font-bold mb-6 text-primary">موقع المدرسة</h3>
@@ -1483,20 +1629,6 @@
     </div>
 
     <script>
-        /*
-        ===========================================
-        ملف الجافاسكريبت الرئيسي لموقع المدرسة المحسن
-        مع إضافة نظام الشعب (10 شعب لكل صف)
-        ===========================================
-        */
-        
-        /*
-        ===========================================
-        إعدادات التخصيص - يمكن تعديلها بسهولة
-        ===========================================
-        */
-        
-        // إعدادات Firebase - قاعدة البيانات السحابية
         const firebaseConfig = {
             apiKey: "AIzaSyC1aGBA8OapqeNy-5mi1bOzcDGEgP-Xsr0",
             authDomain: "thawarat-project.firebaseapp.com",
@@ -1508,64 +1640,46 @@
             measurementId: "G-0G7JW998ES"
         };
 
-        // متغيرات لتخزين جداول الحصص من Firebase
-        let allSchedules = [];
-
-        // قائمة الشعب (10 شعب)
-        const sections = ['1'
-        , '2', '6', '5', '4', '3', '8', '7', '9', '10'];
-
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // المتغيرات العامة
-        let plansData = {}; // تخزين بيانات الخطط الأسبوعية
-        let activitiesData = []; // تخزين بيانات الأنشطة
-        let currentGrade = ''; // الصف المحدد حالياً
-        let currentScheduleGrade = null; // رقم الصف المفتوح في المودال
-        let currentScheduleGradeName = ''; // اسم الصف المفتوح في المودال
-        let currentSection = ''; // الشعبة المحددة
-        let statsAnimated = false; // للتأكد من تحريك الإحصائيات مرة واحدة فقط
+        let allSchedules = [];
+        let plansData = {};
+        let activitiesData = [];
+        let calendarsData = [];
+        let currentGrade = '';
+        let currentSection = '';
+        let currentScheduleGrade = null;
+        let currentScheduleGradeName = '';
+        let statsAnimated = false;
+        let availableSections = {};
 
-        /*
-        ===========================================
-        تهيئة التطبيق عند تحميل الصفحة
-        ===========================================
-        */
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
         });
 
         function initializeApp() {
-            setupEventListeners(); // إعداد مستمعات الأحداث
-            generateGradeCards(); // إنشاء كروت الصفوف
-            loadInitialData(); // تحميل البيانات الأولية
-            setupAnimations(); // إعداد الحركات والانيميشن
-            loadSchedulesData(); // تحميل جداول الحصص من Firebase
+            setupEventListeners();
+            generateGradeCards();
+            loadInitialData();
+            setupAnimations();
+            loadSchedulesData();
+            loadCalendarsData();
+            loadAvailableSections();
         }
 
-        /*
-        ===========================================
-        إعداد مستمعات الأحداث (Event Listeners)
-        ===========================================
-        */
         function setupEventListeners() {
-            // زر قائمة الهاتف المحمول
             document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
             
-            // روابط التنقل
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', handleNavigation);
             });
             
-            // اختيار الصف للخطط الأسبوعية
             document.getElementById('grade-select').addEventListener('change', handleGradeSelection);
+            document.getElementById('section-select').addEventListener('change', handleSectionSelection);
             
-            // إغلاق المودال
             document.getElementById('close-modal').addEventListener('click', closeScheduleModal);
             
-            // إغلاق المودال عند النقر خارجه
             document.getElementById('schedule-modal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeScheduleModal();
@@ -1573,48 +1687,20 @@
             });
         }
 
-        /*
-        ===========================================
-        تحميل جداول الحصص من Firebase
-        ===========================================
-        */
-        function loadSchedulesData() {
-            db.collection('schedules').onSnapshot((snapshot) => {
-                allSchedules = [];
-                snapshot.forEach((doc) => {
-                    const scheduleData = doc.data();
-                    allSchedules.push({
-                        id: doc.id,
-                        ...scheduleData
-                    });
-                });
-            });
-        }
-
-        /*
-        ===========================================
-        وظائف التنقل والقوائم
-        ===========================================
-        */
-        
-        // تبديل عرض قائمة الهاتف المحمول
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
         }
 
-        // التعامل مع النقر على روابط التنقل
         function handleNavigation(e) {
             e.preventDefault();
             const target = e.target.getAttribute('href');
             if (target && target.startsWith('#')) {
                 scrollToSection(target.substring(1));
-                // إخفاء قائمة الهاتف إذا كانت مفتوحة
                 document.getElementById('mobile-menu').classList.add('hidden');
             }
         }
 
-        // التمرير السلس إلى القسم المحدد
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1625,11 +1711,6 @@
             }
         }
 
-        /*
-        ===========================================
-        إنشاء كروت الصفوف الدراسية المحسنة
-        ===========================================
-        */
         function generateGradeCards() {
             const container = document.getElementById('grade-cards-container');
             const gradeNames = {
@@ -1638,7 +1719,6 @@
                 9: 'التاسع', 10: 'العاشر', 11: 'الحادي عشر', 12: 'الثاني عشر'
             };
 
-            // إنشاء كرت لكل صف من 1 إلى 12
             for (let i = 1; i <= 12; i++) {
                 const card = document.createElement('div');
                 card.className = 'schedule-card';
@@ -1662,15 +1742,7 @@
             }
         }
 
-        /*
-        ===========================================
-        وظائف الشعب الجديدة
-        ===========================================
-        */
-
-        // إظهار قائمة اختيار الشعبة
         function showSectionSelector(grade, gradeName) {
-            // إنشاء مودال مؤقت لاختيار الشعبة
             const selectorHTML = `
                 <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full mx-4">
@@ -1678,7 +1750,7 @@
                         <p class="text-gray-600 dark:text-gray-400 mb-6 text-center">الصف ${gradeName}</p>
                         
                         <div class="grid grid-cols-5 gap-3 mb-6">
-                            ${sections.map(section => `
+                            ${Array.from({length: 10}, (_, i) => i + 1).map(section => `
                                 <button onclick="openScheduleModal(${grade}, '${gradeName}', '${section}')" 
                                         class="py-2 px-3 bg-primary text-white rounded-lg hover:bg-opacity-90 transition-all font-bold">
                                     ${section}
@@ -1693,13 +1765,11 @@
                 </div>
             `;
 
-            // إضافة المودال للصفحة
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = selectorHTML;
             tempDiv.id = 'section-selector-modal';
             document.body.appendChild(tempDiv);
 
-            // إغلاق عند النقر خارج المودال
             tempDiv.addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeSectionSelector();
@@ -1714,13 +1784,6 @@
             }
         }
 
-        /*
-        ===========================================
-        وظائف المودال المحسنة (نافذة عرض الجداول)
-        ===========================================
-        */
-        
-        // فتح مودال عرض جدول الحصص مع الشعبة
         function openScheduleModal(grade, gradeName, section) {
             closeSectionSelector();
 
@@ -1734,14 +1797,12 @@
             
             title.textContent = `جدول الحصص - الصف ${gradeName} - الشعبة ${section}`;
             
-            // البحث عن جدول الحصص للصف والشعبة المحددة
             const gradeSchedule = allSchedules.find(schedule => 
                 parseInt(schedule.grade) === grade && 
                 schedule.section === section
             );
             
             if (gradeSchedule && gradeSchedule.schedule && gradeSchedule.schedule.length > 0) {
-                // عرض الجدول
                 content.innerHTML = `
                     <div class="text-center">
                         <div class="mb-8">
@@ -1753,7 +1814,6 @@
                             <h4 class="text-3xl font-bold text-primary mb-3">جدول حصص الصف ${gradeName} - الشعبة ${section}</h4>
                             <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">الجدول الزمني المفصل للحصص الدراسية من الاثنين إلى الجمعة</p>
                             
-                            <!-- عرض جدول الحصص -->
                             <div class="schedule-table-wrapper">
                                 <table class="schedule-table">
                                     <thead>
@@ -1772,7 +1832,6 @@
                                 </table>
                             </div>
                             
-                            <!-- معلومات إضافية -->
                             <div class="info-panel">
                                 <div class="flex items-start text-right">
                                     <i class="fas fa-info-circle text-blue-500 text-xl ml-3 mt-1"></i>
@@ -1792,7 +1851,6 @@
                     </div>
                 `;
             } else {
-                // عرض رسالة عدم توفر الجدول
                 content.innerHTML = `
                     <div class="text-center">
                         <div class="no-schedule-message">
@@ -1802,7 +1860,6 @@
                             <p class="text-base opacity-90">يرجى المراجعة لاحقاً أو التواصل مع الإدارة</p>
                         </div>
                         
-                        <!-- معلومات الاتصال -->
                         <div class="info-panel">
                             <div class="flex items-start text-right">
                                 <i class="fas fa-phone text-blue-500 text-xl ml-3 mt-1"></i>
@@ -1820,98 +1877,235 @@
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            
-            // إضافة تأثير الظهور التدريجي
             modal.style.opacity = '0';
             setTimeout(() => {
                 modal.style.opacity = '1';
             }, 10);
         }
 
-        // إنشاء جدول الحصص HTML مع أوقات محدثة (تبدأ من 8:00)
-// إنشاء جدول الحصص HTML مع أوقات محدثة (تبدأ من 8:00)
-function generateScheduleTable(scheduleData) {
-    let tableRows = '';
-    
-    // مواعيد الحصص المحدثة - 8 حصص مع الاستراحات
-    const timeSlots = [
-        { time: '8:00 - 8:45', isBreak: false, breakType: null },      // الحصة 1
-        { time: '8:45 - 9:30', isBreak: false, breakType: null },      // الحصة 2
-        { time: '9:30 - 9:45', isBreak: true, breakType: 'استراحة' },  // استراحة 15 دقيقة
-        { time: '9:45 - 10:30', isBreak: false, breakType: null },     // الحصة 3
-        { time: '10:30 - 11:15', isBreak: false, breakType: null },    // الحصة 4
-        { time: '11:15 - 12:00', isBreak: false, breakType: null },    // الحصة 5
-        { time: '12:00 - 12:15', isBreak: true, breakType: 'فسحة' },   // فسحة 15 دقيقة
-        { time: '12:15 - 1:00', isBreak: false, breakType: null },     // الحصة 6
-        { time: '1:00 - 1:45', isBreak: false, breakType: null },      // الحصة 7
-        { time: '1:45 - 2:30', isBreak: false, breakType: null }       // الحصة 8
-    ];
+        function generateScheduleTable(scheduleData) {
+            let tableRows = '';
+            
+            const timeSlots = [
+                { time: '8:00 - 8:45', isBreak: false, breakType: null },
+                { time: '8:45 - 9:30', isBreak: false, breakType: null },
+                { time: '9:30 - 9:45', isBreak: true, breakType: 'استراحة' },
+                { time: '9:45 - 10:30', isBreak: false, breakType: null },
+                { time: '10:30 - 11:15', isBreak: false, breakType: null },
+                { time: '11:15 - 12:00', isBreak: false, breakType: null },
+                { time: '12:00 - 12:15', isBreak: true, breakType: 'فسحة' },
+                { time: '12:15 - 1:00', isBreak: false, breakType: null },
+                { time: '1:00 - 1:45', isBreak: false, breakType: null },
+                { time: '1:45 - 2:30', isBreak: false, breakType: null }
+            ];
 
-    timeSlots.forEach((slot, index) => {
-        if (slot.isBreak) {
-            // صف الاستراحة أو الفسحة
-            const breakColor = slot.breakType === 'استراحة' ? 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
-            tableRows += `
-                <tr>
-                    <td class="time-cell font-bold">${slot.time}</td>
-                    <td colspan="5" class="text-center ${breakColor} font-bold text-lg">${slot.breakType}</td>
-                </tr>
-            `;
-        } else {
-            // الأيام: من الاثنين إلى الجمعة فقط
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-            const daySchedules = days.map(day => {
-                const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
-                return dayData ? dayData.subject : '-';
+            timeSlots.forEach((slot, index) => {
+                if (slot.isBreak) {
+                    const breakColor = slot.breakType === 'استراحة' ? 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200';
+                    tableRows += `
+                        <tr>
+                            <td class="time-cell font-bold">${slot.time}</td>
+                            <td colspan="5" class="text-center ${breakColor} font-bold text-lg">${slot.breakType}</td>
+                        </tr>
+                    `;
+                } else {
+                    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+                    const daySchedules = days.map(day => {
+                        const dayData = scheduleData.find(item => item.day === day && item.timeSlot === index);
+                        return dayData ? dayData.subject : '-';
+                    });
+
+                    tableRows += `
+                        <tr>
+                            <td class="time-cell font-bold">${slot.time}</td>
+                            <td class="subject-cell">${daySchedules[0]}</td>
+                            <td class="subject-cell">${daySchedules[1]}</td>
+                            <td class="subject-cell">${daySchedules[2]}</td>
+                            <td class="subject-cell">${daySchedules[3]}</td>
+                            <td class="subject-cell">${daySchedules[4]}</td>
+                        </tr>
+                    `;
+                }
             });
 
-            tableRows += `
-                <tr>
-                    <td class="time-cell font-bold">${slot.time}</td>
-                    <td class="subject-cell">${daySchedules[0]}</td>
-                    <td class="subject-cell">${daySchedules[1]}</td>
-                    <td class="subject-cell">${daySchedules[2]}</td>
-                    <td class="subject-cell">${daySchedules[3]}</td>
-                    <td class="subject-cell">${daySchedules[4]}</td>
-                </tr>
-            `;
+            return tableRows;
         }
-    });
 
-    return tableRows;
-}
-
-
-        // إغلاق مودال جدول الحصص
         function closeScheduleModal() {
             const modal = document.getElementById('schedule-modal');
             modal.style.opacity = '0';
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
-                // إعادة تعيين المتغيرات
                 currentScheduleGrade = null;
                 currentScheduleGradeName = '';
                 currentSection = '';
             }, 200);
         }
 
-        /*
-        ===========================================
-        وظائف الخطط الأسبوعية المحدثة
-        ===========================================
-        */
-        
-        // تحميل البيانات الأولية
+        function loadSchedulesData() {
+            db.collection('schedules').onSnapshot((snapshot) => {
+                allSchedules = [];
+                snapshot.forEach((doc) => {
+                    const scheduleData = doc.data();
+                    allSchedules.push({
+                        id: doc.id,
+                        ...scheduleData
+                    });
+                });
+            });
+        }
+
+        function loadAvailableSections() {
+            db.collection('weeklyPlans').onSnapshot((snapshot) => {
+                availableSections = {};
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const grade = data.grade;
+                    if (!availableSections[grade]) {
+                        availableSections[grade] = [];
+                    }
+                    if (data.section && !availableSections[grade].includes(data.section)) {
+                        availableSections[grade].push(data.section);
+                    }
+                });
+            });
+        }
+
+        function loadCalendarsData() {
+            db.collection('academicCalendar').onSnapshot((snapshot) => {
+                calendarsData = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (!data.archived) {
+                        calendarsData.push({
+                            id: doc.id,
+                            ...data
+                        });
+                    }
+                });
+                displayCalendars();
+            });
+        }
+
+        function displayCalendars() {
+            const gallery = document.getElementById('calendar-gallery');
+            const noMessage = document.getElementById('no-calendar-message');
+            const content = document.getElementById('calendar-content');
+            
+            setTimeout(() => {
+                document.getElementById('calendar-loading').classList.add('hidden');
+                content.classList.remove('hidden');
+                
+                if (calendarsData.length === 0) {
+                    gallery.classList.add('hidden');
+                    noMessage.classList.remove('hidden');
+                    return;
+                }
+                
+                gallery.classList.remove('hidden');
+                noMessage.classList.add('hidden');
+                gallery.innerHTML = '';
+                
+                calendarsData.forEach(calendar => {
+                    const card = document.createElement('div');
+                    card.className = 'calendar-semester-card';
+                    
+                    const semesterIcon = getSemesterIcon(calendar.semester);
+                    const semesterTitle = getSemesterTitle(calendar.semester);
+                    
+                    let dateItemsHTML = '';
+                    if (calendar.startDate) {
+                        dateItemsHTML += `
+                            <div class="date-item">
+                                <div class="date-label">
+                                    <i class="fas fa-calendar-check"></i>
+                                    بداية الفصل
+                                </div>
+                                <div class="date-value">${formatDateArabic(new Date(calendar.startDate))}</div>
+                            </div>
+                        `;
+                    }
+                    if (calendar.holidayDate) {
+                        dateItemsHTML += `
+                            <div class="date-item">
+                                <div class="date-label">
+                                    <i class="fas fa-umbrella-beach"></i>
+                                    تاريخ الإجازة
+                                </div>
+                                <div class="date-value">${formatDateArabic(new Date(calendar.holidayDate))}</div>
+                            </div>
+                        `;
+                    }
+                    if (calendar.endDate) {
+                        dateItemsHTML += `
+                            <div class="date-item">
+                                <div class="date-label">
+                                    <i class="fas fa-calendar-times"></i>
+                                    نهاية الفصل
+                                </div>
+                                <div class="date-value">${formatDateArabic(new Date(calendar.endDate))}</div>
+                            </div>
+                        `;
+                    }
+                    
+                    let notesHTML = '';
+                    if (calendar.notes) {
+                        notesHTML = `
+                            <div class="semester-notes">
+                                <h5>
+                                    <i class="fas fa-sticky-note"></i>
+                                    ملاحظات هامة
+                                </h5>
+                                <p>${calendar.notes}</p>
+                            </div>
+                        `;
+                    }
+                    
+                    card.innerHTML = `
+                        <div class="semester-header">
+                            <span class="semester-icon">${semesterIcon}</span>
+                            <span class="semester-title">${semesterTitle}</span>
+                        </div>
+                        <div class="semester-content">
+                            <h3 class="text-2xl font-bold text-primary mb-6">التقويم الأكاديمي لمدرسة الثروات الوطنية</h3>
+                            <div class="semester-date-row">
+                                ${dateItemsHTML}
+                            </div>
+                            ${notesHTML}
+                        </div>
+                    `;
+                    
+                    gallery.appendChild(card);
+                });
+            }, 1200);
+        }
+
+        function getSemesterIcon(semester) {
+            const icons = {
+                'first': '📚',
+                'second': '✏️',
+                'third': '🎓'
+            };
+            return icons[semester] || '📅';
+        }
+
+        function getSemesterTitle(semester) {
+            const titles = {
+                'first': 'الفصل الدراسي الأول',
+                'second': 'الفصل الدراسي الثاني',
+                'third': 'الفصل الدراسي الثالث'
+            };
+            return titles[semester] || 'الفصل الدراسي';
+        }
+
         function loadInitialData() {
-            // إظهار حالة التحميل لفترة قصيرة ثم عرض المحتوى
             setTimeout(() => {
                 document.getElementById('plans-loading').classList.add('hidden');
                 document.getElementById('plans-content').classList.remove('hidden');
                 loadWeeklyPlans();
             }, 1500);
 
-            // تحميل الأنشطة
             setTimeout(() => {
                 document.getElementById('activities-loading').classList.add('hidden');
                 document.getElementById('activities-content').classList.remove('hidden');
@@ -1919,44 +2113,90 @@ function generateScheduleTable(scheduleData) {
             }, 1000);
         }
 
-        // التعامل مع اختيار الصف فقط
         function handleGradeSelection() {
             const selectedGrade = document.getElementById('grade-select').value;
             currentGrade = selectedGrade;
+            const sectionSelect = document.getElementById('section-select');
             
             if (selectedGrade) {
-                loadWeeklyPlan(selectedGrade);
+                updateSectionOptions(selectedGrade);
+                sectionSelect.disabled = false;
+            } else {
+                sectionSelect.innerHTML = '<option value="">اختر الشعبة</option>';
+                sectionSelect.disabled = true;
+                hideWeeklyPlan();
+            }
+        }
+
+        function updateSectionOptions(grade) {
+            const sectionSelect = document.getElementById('section-select');
+            const sections = availableSections[grade] || [];
+            
+            sectionSelect.innerHTML = '<option value="">اختر الشعبة</option>';
+            
+            if (sections.length === 0) {
+                for (let i = 1; i <= 10; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `الشعبة ${i}`;
+                    sectionSelect.appendChild(option);
+                }
+            } else {
+                sections.forEach(section => {
+                    const option = document.createElement('option');
+                    option.value = section;
+                    option.textContent = `الشعبة ${section}`;
+                    sectionSelect.appendChild(option);
+                });
+            }
+        }
+
+        function handleSectionSelection() {
+            const selectedGrade = document.getElementById('grade-select').value;
+            const selectedSection = document.getElementById('section-select').value;
+            
+            if (selectedGrade && selectedSection) {
+                loadWeeklyPlan(selectedGrade, selectedSection);
             } else {
                 hideWeeklyPlan();
             }
         }
 
-        // إخفاء الخطة الأسبوعية
         function hideWeeklyPlan() {
             document.getElementById('week-info').classList.add('hidden');
             document.getElementById('weekly-plan-display').classList.add('hidden');
             document.getElementById('no-plans-message').classList.add('hidden');
+            document.getElementById('teacher-info-banner').classList.add('hidden');
         }
 
-        // تحميل الخطط الأسبوعية من Firebase
         async function loadWeeklyPlans() {
             try {
                 db.collection('weeklyPlans').onSnapshot((snapshot) => {
                     plansData = {};
+                    availableSections = {};
                     snapshot.forEach((doc) => {
                         const data = doc.data();
                         if (!data.archived) {
-                            const key = data.grade;
+                            const key = data.grade + '_' + data.section;
+                            const gradeKey = data.grade;
+                            
+                            if (!plansData[key]) {
+                                plansData[key] = {};
+                            }
+                            if (!availableSections[gradeKey]) {
+                                availableSections[gradeKey] = [];
+                            }
+                            
                             plansData[key] = {
                                 id: doc.id,
                                 ...data
                             };
+                            
+                            if (!availableSections[gradeKey].includes(data.section)) {
+                                availableSections[gradeKey].push(data.section);
+                            }
                         }
                     });
-                    
-                    if (currentGrade) {
-                        loadWeeklyPlan(currentGrade);
-                    }
                 });
             } catch (error) {
                 console.error('Error loading plans:', error);
@@ -1964,20 +2204,23 @@ function generateScheduleTable(scheduleData) {
             }
         }
 
-        // عرض خطة أسبوعية لصف محدد
-        function loadWeeklyPlan(grade) {
+        function loadWeeklyPlan(grade, section) {
             const weekInfo = document.getElementById('week-info');
             const weekTitle = document.getElementById('week-title');
             const weeklyPlanDisplay = document.getElementById('weekly-plan-display');
             const noPlansMessage = document.getElementById('no-plans-message');
             const tableBody = document.getElementById('weekly-plan-body');
+            const teacherInfoBanner = document.getElementById('teacher-info-banner');
+            const teacherInfoText = document.getElementById('teacher-info-text');
             
-            const gradePlan = plansData[grade];
+            const key = grade + '_' + section;
+            const gradePlan = plansData[key];
             
             if (!gradePlan) {
                 weekInfo.classList.add('hidden');
                 weeklyPlanDisplay.classList.add('hidden');
                 noPlansMessage.classList.remove('hidden');
+                teacherInfoBanner.classList.add('hidden');
                 return;
             }
             
@@ -1987,12 +2230,19 @@ function generateScheduleTable(scheduleData) {
             const weekStart = gradePlan.weekStart;
             const weekEnd = gradePlan.weekEnd;
             
+            if (gradePlan.teacherName && gradePlan.section) {
+                teacherInfoText.textContent = `المعلم: ${gradePlan.teacherName} | الشعبة: ${gradePlan.section}`;
+                teacherInfoBanner.classList.remove('hidden');
+            } else {
+                teacherInfoBanner.classList.add('hidden');
+            }
+            
             if (weekStart && weekEnd) {
-                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} من ${formatDateArabic(new Date(weekStart))} إلى ${formatDateArabic(new Date(weekEnd))}`;
+                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} - الشعبة ${section} من ${formatDateArabic(new Date(weekStart))} إلى ${formatDateArabic(new Date(weekEnd))}`;
                 weekInfo.classList.remove('hidden');
                 updateDayHeaders(new Date(weekStart));
             } else {
-                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName}`;
+                weekTitle.textContent = `خطة أسبوع ${gradeDisplayName} - الشعبة ${section}`;
                 weekInfo.classList.remove('hidden');
             }
             
@@ -2033,7 +2283,6 @@ function generateScheduleTable(scheduleData) {
             }
         }
 
-        // تحديث عناوين الأيام
         function updateDayHeaders(startDate) {
             const days = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
             const headers = ['monday-header', 'tuesday-header', 'wednesday-header', 'thursday-header', 'friday-header'];
@@ -2073,12 +2322,15 @@ function generateScheduleTable(scheduleData) {
             });
         }
 
-        /*
-        ===========================================
-        وظائف الأنشطة المدرسية
-        ===========================================
-        */
-        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ar-AE', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
         async function loadActivities() {
             try {
                 db.collection('activities').onSnapshot((snapshot) => {
@@ -2225,20 +2477,6 @@ function generateScheduleTable(scheduleData) {
             }
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('ar-AE', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        /*
-        ===========================================
-        إعداد الحركات والانيميشن المحسنة
-        ===========================================
-        */
         function setupAnimations() {
             const animateCounter = (counter) => {
                 const target = parseInt(counter.getAttribute('data-target'));
@@ -2305,12 +2543,6 @@ function generateScheduleTable(scheduleData) {
             });
         }
 
-        /*
-        ===========================================
-        وظائف الروابط الخارجية
-        ===========================================
-        */
-        
         function openDirections() {
             const address = encodeURIComponent('مدرسة الثروات الوطنية الخاصة، أبوظبي، الإمارات العربية المتحدة');
             window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');
@@ -2321,12 +2553,6 @@ function generateScheduleTable(scheduleData) {
             window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank');
         }
 
-        /*
-        ===========================================
-        وظائف مساعدة
-        ===========================================
-        */
-        
         function showErrorMessage(message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
@@ -2341,22 +2567,6 @@ function generateScheduleTable(scheduleData) {
             setTimeout(() => {
                 alertDiv.remove();
             }, 5000);
-        }
-
-        function showSuccessMessage(message) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-            alertDiv.innerHTML = `
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    <i class="fas fa-check-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            document.body.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
         }
 
         const style = document.createElement('style');
